@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
+import org.json.JSONObject;
 
 import com.dxc.JiraExtractor.JIRAObjects.JIRAProject;
 
@@ -13,7 +14,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor{
 	private String username;
 	private String password;
 	
-	public JIRAInteractor(String url, String username, String password) {
+	public JIRAInteractor(String url) {
 		// TODO Auto-generated constructor stub
 		this.password = password;
 		this.url = url;
@@ -21,8 +22,18 @@ public class JIRAInteractor implements IJIRAIPIInteractor{
 	}
 	
 	@Override
-	public boolean login(String url, String email, String password) {
-		return false;
+	public boolean login(String email, String password) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.accumulate("username", email);
+		jsonObject.accumulate("password", password);
+		String resultString = SendRequest.sendPOSTRequest(url + "/rest/auth/1/session", jsonObject);
+		System.out.println(">>>"+resultString);
+		JSONObject jsonResult = new JSONObject(resultString);
+		if (jsonResult.has("session"))
+			return true;
+		else {
+			return false;
+		}
 	}
 
 	@Override
