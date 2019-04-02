@@ -1,0 +1,86 @@
+.logo{
+    font-weight: bold;
+    font-size: 25px;
+}
+/*Menu*/
+.elementMenu {
+  transition: 0.3s ease;
+  margin: 0 20px;
+}
+.elementMenu:hover {
+  border-bottom: 3px solid #ffffff;
+  padding: 6px 0;
+}
+
+.userInfo {
+  color: white;
+  display: inline-block;
+  font-size: 30px;
+  text-align: right;
+  margin: 0 20px;
+}
+.userInfo:after {
+  display: none
+}
+
+.userInfo:hover{
+    font-weight: 500;
+    color: aliceblue;
+}
+.userInfo:hover i{
+    color: aliceblue;
+}
+
+@media screen and (min-width: 990px) {
+    .dropdown-menu-right{
+        left:auto;
+        right:0;
+        margin-top: 10px;
+        margin-right:10px;
+        text-align: center;
+    }
+    .dropdown-menu-right:after {
+      bottom: 100%;
+      left: 89%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-bottom-color: white;
+      border-width: 8px;
+      margin-left: -8px;
+    }
+}
+
+
+/*check box*/
+.checkboxFive {
+    width: 25px;
+    margin: 20px 100px;
+    opacity: 0.8;
+}
+/*Custom form search*/
+/* Bootstrap 4 text input with search icon */
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+	margin-top: 10px;
+}
+
+.importData{
+    float: right;
+}
