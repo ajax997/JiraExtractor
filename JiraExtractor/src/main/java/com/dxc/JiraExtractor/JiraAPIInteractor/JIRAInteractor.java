@@ -16,6 +16,8 @@ import org.json.JSONObject;
 
 import com.dxc.JiraExtractor.ConfigStuffs;
 import com.dxc.JiraExtractor.JIRAObjects.JIRAProject;
+import com.dxc.JiraExtractor.JIRAObjects.JIRAProjectDetail;
+import com.dxc.JiraExtractor.JIRAObjects.POJOFromJson;
 
 public class JIRAInteractor implements IJIRAIPIInteractor {
 
@@ -50,7 +52,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 
 	@Override
 	public ArrayList<JIRAProject> getProjects() {
-		String resultString = SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/2/project", RequestType.GET);
+		String resultString = SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/3/project", RequestType.GET);
 		JSONArray jiraJsonObjectsJsonObject = new JSONArray(resultString);
 		ArrayList<JIRAProject> jiraProjects = new ArrayList<JIRAProject>();
 		for(int i= 0; i<jiraJsonObjectsJsonObject.length(); i++)
@@ -80,9 +82,12 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 	}
 
 	@Override
-	public JIRAProject getProjecyByProjectId(String jiraProjId) {
-		// TODO Auto-generated method stub
-		return null;
+	public JIRAProjectDetail getProjectByProjectId(String jiraProjId) {
+		String resultString = SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/3/project/"+jiraProjId, RequestType.GET);
+		JSONObject jiraJsonObjectsJsonObject = new JSONObject(resultString);
+		
+		return POJOFromJson.getProjectDetailsFromJson(jiraJsonObjectsJsonObject);
+		
 	}
 
 }
