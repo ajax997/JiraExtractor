@@ -8,10 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class JiraExtractorApplication {
 
-	
-	
 	public static void main(String[] args) {
 		SpringApplication.run(JiraExtractorApplication.class, args);
 	}
-
 }

@@ -21,7 +21,7 @@
                 
               <div class="form-label-group">
                 <label for="inputLink">Link Jira</label>
-                <input type="url" id="inputLink" name="link" ng-model="link" class="form-control" placeholder="Enter link" required autofocus>
+                <input type="url" id="inputLink" name="link" ng-model="link" class="form-control" placeholder="Enter link" required autofocus >
                 <div style="color:red">
                     <span class="error" ng-show="form.link.$error.url">
                       Not valid url!</span>

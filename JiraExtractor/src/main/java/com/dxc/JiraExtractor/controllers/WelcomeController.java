@@ -11,21 +11,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dxc.JiraExtractor.JiraAPIInteractor.JIRAInteractor;
+
 @Controller
 public class WelcomeController {
-	
-	// inject via application.properties
-		
 
-		@RequestMapping("/")
-		public String welcome() {
-			
-			return "welcome";
-		}
-	
+	// inject via application.properties
+
+	@RequestMapping("/")
+	public String welcome() {
+
+		return "login";
+	}
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam("username") String user, @RequestParam("password") String password) {
-		return "True";
-		
+	public String login(@RequestParam("link") String url,@RequestParam("email") String user, @RequestParam("pass") String password) {
+		JIRAInteractor interactor = new JIRAInteractor(url);
+		boolean loginR = interactor.login(user, password);
+		if (loginR)
+			return "project";
+		else
+		{
+			return "xxx";
+		}
 	}
 }
