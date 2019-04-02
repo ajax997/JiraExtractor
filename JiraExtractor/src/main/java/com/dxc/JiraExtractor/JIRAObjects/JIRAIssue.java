@@ -1,6 +1,5 @@
 package com.dxc.JiraExtractor.JIRAObjects;
 
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 public class JIRAIssue {
 	private int avatarId;

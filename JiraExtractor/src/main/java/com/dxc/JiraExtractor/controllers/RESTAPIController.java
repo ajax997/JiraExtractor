@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dxc.JiraExtractor.ConfigStuffs;
+import com.dxc.JiraExtractor.JIRAObjects.JIRAIssueDetail;
 import com.dxc.JiraExtractor.JIRAObjects.JIRAProject;
 import com.dxc.JiraExtractor.JIRAObjects.JIRAProjectDetail;
 import com.dxc.JiraExtractor.JiraAPIInteractor.JIRAInteractor;
@@ -28,8 +29,16 @@ public class RESTAPIController {
 		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
 		JIRAProjectDetail detail = interactor.getProjectByProjectId(projectId);
 		
-		
 		return  new Gson().toJson(detail);
+		
+	}
+	
+	@RequestMapping(value = "/api/issue/{issueID}")
+	public String getIssue(@PathVariable String issueID)
+	{
+		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
+		JIRAIssueDetail detail = interactor.getIssueFromId(issueID);
+		return new Gson().toJson(detail);
 		
 	}
 }

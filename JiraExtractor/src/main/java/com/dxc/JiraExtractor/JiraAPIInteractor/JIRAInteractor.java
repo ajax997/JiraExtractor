@@ -2,19 +2,11 @@ package com.dxc.JiraExtractor.JiraAPIInteractor;
 
 import java.util.ArrayList;
 
-import javax.xml.ws.spi.http.HttpContext;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.protocol.BasicHttpContext;
-import org.eclipse.jdt.internal.compiler.ast.ThisReference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.dxc.JiraExtractor.ConfigStuffs;
+import com.dxc.JiraExtractor.JIRAObjects.JIRAIssueDetail;
 import com.dxc.JiraExtractor.JIRAObjects.JIRAProject;
 import com.dxc.JiraExtractor.JIRAObjects.JIRAProjectDetail;
 import com.dxc.JiraExtractor.JIRAObjects.POJOFromJson;
@@ -58,21 +50,9 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 		for(int i= 0; i<jiraJsonObjectsJsonObject.length(); i++)
 		{
 			JSONObject object = jiraJsonObjectsJsonObject.getJSONObject(i);
-			
-			JIRAProject jiraProject = new JIRAProject();
-			jiraProject.setId(object.getString("id"));
-			jiraProject.setUrl(object.getString("self"));
-			jiraProject.setName(object.getString("name"));
-			jiraProject.setProjectType(object.getString("projectTypeKey"));
-			jiraProject.setPrivate(object.getBoolean("isPrivate"));
-			
-			JSONObject avatarUrls = object.getJSONObject("avatarUrls");
-			jiraProject.setAvatarUrl(avatarUrls.getString("48x48"));
-			
-			jiraProjects.add(jiraProject);
+			jiraProjects.add(POJOFromJson.getJiraProjectFromJson(object));
 		}
 		return jiraProjects;
-		
 	}
 
 	@Override
@@ -88,6 +68,13 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 		
 		return POJOFromJson.getProjectDetailsFromJson(jiraJsonObjectsJsonObject);
 		
+	}
+
+	@Override
+	public JIRAIssueDetail getIssueFromId(String jiraIssueId) {
+		String resultString = SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/3/issue/"+jiraIssueId, RequestType.GET);
+		JSONObject issueJsonObject = new JSONObject(resultString);
+		return POJOFromJson.getIssueDetailFromJson(issueJsonObject);
 	}
 
 }

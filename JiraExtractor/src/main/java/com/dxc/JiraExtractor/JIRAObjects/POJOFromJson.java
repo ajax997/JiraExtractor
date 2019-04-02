@@ -23,17 +23,7 @@ public class POJOFromJson {
 		
 		//LEAD
 		JSONObject lead = json.getJSONObject("lead");
-		JIRAProjectUser user = new JIRAProjectUser();
-		user.setAccountId(lead.getString("accountId"));
-		user.setActive(lead.getBoolean("active"));
-		user.setKey(lead.getString("key"));
-		user.setSelf(lead.getString("self"));
-		user.setName(lead.getString("name"));
-		user.setDisplayName(lead.getString("displayName"));
-		JSONObject leadAVT = lead.getJSONObject("avatarUrls");
-		user.setAvatarUrls(leadAVT.getString("48x48"));
-		
-		projectDetail.setProjectUser(user);
+		projectDetail.setProjectUser(getProjectUserFromJson(lead));
 		
 		//ISSUES
 		ArrayList<JIRAIssue> listIssues = new ArrayList<JIRAIssue>();
@@ -42,15 +32,8 @@ public class POJOFromJson {
 		for(int i = 0 ; i< issuesArray.length(); i++)
 		{
 			JSONObject issueJ = issuesArray.getJSONObject(i);
-			JIRAIssue issue = new JIRAIssue();
-			issue.setSelf(issueJ.getString("self"));
-			issue.setId(issueJ.getString("id"));
-			issue.setDescription(issueJ.getString("description"));
-			issue.setIconUrl(issueJ.getString("iconUrl"));
-			issue.setName(issueJ.getString("iconUrl"));
-			issue.setSubtask(issueJ.getBoolean("subtask"));
-			//issue.setAvatarId(issueJ.getInt("avatarId"));
-			listIssues.add(issue);
+			
+			listIssues.add(getIssueTypeFromJson(issueJ));
 		}
 		projectDetail.setIssues(listIssues);
 		
@@ -77,4 +60,70 @@ public class POJOFromJson {
 		
 		return projectDetail;
 	}
+	
+	public static JIRAIssue getIssueTypeFromJson(JSONObject issueJ) {
+		JIRAIssue issue = new JIRAIssue();
+		issue.setSelf(issueJ.getString("self"));
+		issue.setId(issueJ.getString("id"));
+		issue.setDescription(issueJ.getString("description"));
+		issue.setIconUrl(issueJ.getString("iconUrl"));
+		issue.setName(issueJ.getString("iconUrl"));
+		issue.setSubtask(issueJ.getBoolean("subtask"));
+		//issue.setAvatarId(issueJ.getInt("avatarId"));
+		return issue;
+	}	
+	
+	public static JIRAProjectUser getProjectUserFromJson(JSONObject lead)
+	{
+		
+		JIRAProjectUser user = new JIRAProjectUser();
+		user.setAccountId(lead.getString("accountId"));
+		user.setActive(lead.getBoolean("active"));
+		user.setKey(lead.getString("key"));
+		user.setSelf(lead.getString("self"));
+		user.setName(lead.getString("name"));
+		user.setDisplayName(lead.getString("displayName"));
+		JSONObject leadAVT = lead.getJSONObject("avatarUrls");
+		user.setAvatarUrls(leadAVT.getString("48x48"));
+		return user;
+	}
+	
+	public static JIRAProject getJiraProjectFromJson(JSONObject object)
+	{
+		JIRAProject jiraProject = new JIRAProject();
+		jiraProject.setId(object.getString("id"));
+		jiraProject.setUrl(object.getString("self"));
+		jiraProject.setName(object.getString("name"));
+		jiraProject.setProjectType(object.getString("projectTypeKey"));
+		jiraProject.setPrivate(object.getBoolean("isPrivate"));
+		
+		JSONObject avatarUrls = object.getJSONObject("avatarUrls");
+		jiraProject.setAvatarUrl(avatarUrls.getString("48x48"));
+		
+		return jiraProject;
+	}
+	
+	public static JIRAIssueDetail getIssueDetailFromJson(JSONObject object)
+	{
+		JSONObject contentJ = object.getJSONObject("fields");
+		
+		JIRAIssueDetail jiraDetail = new JIRAIssueDetail();
+		jiraDetail.setId(object.getString("id"));
+		jiraDetail.setKey(object.getString("key"));
+		jiraDetail.setSummary(object.getString("summary"));
+		jiraDetail.setProject(POJOFromJson.getJiraProjectFromJson(contentJ.getJSONObject("project")));
+		jiraDetail.setIssueType(POJOFromJson.getIssueTypeFromJson(contentJ.getJSONObject("issuetype")));
+		
+		jiraDetail.setCreator(POJOFromJson.getProjectUserFromJson(contentJ.getJSONObject("creator")));
+		jiraDetail.setReporter(POJOFromJson.getProjectUserFromJson(contentJ.getJSONObject("reporter")));
+		
+		try {
+			JSONObject j = contentJ.getJSONObject("assignee");
+			jiraDetail.setAssignee(POJOFromJson.getProjectUserFromJson(j));
+		}
+		catch(Exception e) {e.printStackTrace();}
+		
+		return jiraDetail;
+	}
+	
 }
