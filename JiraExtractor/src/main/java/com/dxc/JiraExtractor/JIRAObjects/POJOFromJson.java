@@ -48,8 +48,11 @@ public class POJOFromJson {
 			JIRAVersion version = new JIRAVersion();
 			version.setSelf(versionJ.getString("self"));
 			version.setId(versionJ.getString("id"));
+			version.setName(versionJ.getString("name"));
+			version.setStartDate(versionJ.getString("startDate"));
+			version.setReleaseDate(versionJ.getString("releaseDate"));
+			version.setDescription(versionJ.getString("description"));
 			
-			version.setName(versionJ.getString("iconUrl"));
 			//version.setArchived(versionJ.getBoolean("archived"));
 			//version.setReleased(versionJ.getBoolean("released"));
 			//version.setProjectId(versionJ.getInt("projectId"));
@@ -95,8 +98,12 @@ public class POJOFromJson {
 		jiraProject.setUrl(object.getString("self"));
 		jiraProject.setName(object.getString("name"));
 		jiraProject.setProjectType(object.getString("projectTypeKey"));
+		try {
 		jiraProject.setPrivate(object.getBoolean("isPrivate"));
-		
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
 		JSONObject avatarUrls = object.getJSONObject("avatarUrls");
 		jiraProject.setAvatarUrl(avatarUrls.getString("48x48"));
 		
@@ -110,7 +117,7 @@ public class POJOFromJson {
 		JIRAIssueDetail jiraDetail = new JIRAIssueDetail();
 		jiraDetail.setId(object.getString("id"));
 		jiraDetail.setKey(object.getString("key"));
-		jiraDetail.setSummary(object.getString("summary"));
+		//jiraDetail.setSummary(object.getString("summary"));
 		jiraDetail.setProject(POJOFromJson.getJiraProjectFromJson(contentJ.getJSONObject("project")));
 		jiraDetail.setIssueType(POJOFromJson.getIssueTypeFromJson(contentJ.getJSONObject("issuetype")));
 		

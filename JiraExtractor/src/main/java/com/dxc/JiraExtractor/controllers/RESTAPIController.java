@@ -41,4 +41,12 @@ public class RESTAPIController {
 		return new Gson().toJson(detail);
 		
 	}
+	@RequestMapping(value = "/api/{projectId}/sprints")
+	public String getSpring(@PathVariable String projectId)
+	{
+		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
+		
+		//TODO
+		return "";
+	}
 }

@@ -12,8 +12,39 @@ public class JIRAVersion {
     private int projectId;
 
     private boolean released;
+    
+    private String startDate;
+    
+    private String releaseDate;
+    
+    private String description;
 
-    public boolean getArchived ()
+    
+    public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public boolean getArchived ()
     {
         return archived;
     }

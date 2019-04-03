@@ -12,4 +12,5 @@ public interface IJIRAIPIInteractor {
 	public JIRAProject getProjectByName(String jiraName);
 	public JIRAProjectDetail getProjectByProjectId(String jiraProjId);
 	public JIRAIssueDetail getIssueFromId(String jiraIssueId);
+	
 }
