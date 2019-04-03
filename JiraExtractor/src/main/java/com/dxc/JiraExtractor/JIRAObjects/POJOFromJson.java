@@ -132,5 +132,15 @@ public class POJOFromJson {
 		
 		return jiraDetail;
 	}
+
+	public static JIRADashboard getDashboardFromJson(JSONObject json){
+		JIRADashboard jiraDashboard = new JIRADashboard();
+		jiraDashboard.setId(json.getString("id"));
+		jiraDashboard.setName(json.getString("name"));
+		jiraDashboard.setUrl(json.getString("self"));
+		jiraDashboard.setView(json.getString("view"));
+		return  jiraDashboard;
+
+	}
 	
 }

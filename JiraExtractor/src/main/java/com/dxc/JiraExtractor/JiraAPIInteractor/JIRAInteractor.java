@@ -2,14 +2,11 @@ package com.dxc.JiraExtractor.JiraAPIInteractor;
 
 import java.util.ArrayList;
 
+import com.dxc.JiraExtractor.JIRAObjects.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.dxc.JiraExtractor.ConfigStuffs;
-import com.dxc.JiraExtractor.JIRAObjects.JIRAIssueDetail;
-import com.dxc.JiraExtractor.JIRAObjects.JIRAProject;
-import com.dxc.JiraExtractor.JIRAObjects.JIRAProjectDetail;
-import com.dxc.JiraExtractor.JIRAObjects.POJOFromJson;
 
 public class JIRAInteractor implements IJIRAIPIInteractor {
 
@@ -76,5 +73,24 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 		JSONObject issueJsonObject = new JSONObject(resultString);
 		return POJOFromJson.getIssueDetailFromJson(issueJsonObject);
 	}
+
+	@Override
+	public ArrayList<JIRADashboard> getDashboards() {
+		String resultString = SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/3/dashboard", RequestType.GET);
+		JSONObject jsonObject = new JSONObject(resultString);
+		JSONArray dbs = jsonObject.getJSONArray("dashboards");
+		ArrayList<JIRADashboard> jiraDashboards = new ArrayList<>();
+		for (int i = 0; i< dbs.length(); i++)
+		{
+			jiraDashboards.add(POJOFromJson.getDashboardFromJson(dbs.getJSONObject(i)));
+		}
+		return jiraDashboards;
+	}
+
+	@Override
+	public String getDashboardView(String dashboardId) {
+		return SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/3/dashboard/"+dashboardId, RequestType.GET);
+	}
+
 
 }

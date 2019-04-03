@@ -2,6 +2,7 @@ package com.dxc.JiraExtractor.controllers;
 
 import java.util.ArrayList;
 
+import com.dxc.JiraExtractor.JIRAObjects.JIRADashboard;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,11 +43,29 @@ public class RESTAPIController {
 		
 	}
 	@RequestMapping(value = "/api/{projectId}/sprints")
-	public String getSpring(@PathVariable String projectId)
+	public String getSprint(@PathVariable String projectId)
 	{
 		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
 		
 		//TODO
 		return "";
 	}
+
+	@RequestMapping(value = "/api/dashboards")
+	public String getDashboard()
+	{
+		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
+		ArrayList<JIRADashboard> dashboards = interactor.getDashboards();
+		return new Gson().toJson(dashboards);
+
+	}
+	@RequestMapping(value = "/api/dashboard/{dashboardId}")
+	public String getDashboardView(@PathVariable String dashboardId)
+	{
+		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
+		return interactor.getDashboardView(dashboardId);
+	}
+
+
+
 }
