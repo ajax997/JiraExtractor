@@ -14,6 +14,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 	private String username;
 	private String password;
 
+	POJOFromJson pojoFromJson = new POJOFromJson();
 	public JIRAInteractor(String url) {
 		// TODO Auto-generated constructor stub
 		this.password = password;
@@ -47,7 +48,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 		for(int i= 0; i<jiraJsonObjectsJsonObject.length(); i++)
 		{
 			JSONObject object = jiraJsonObjectsJsonObject.getJSONObject(i);
-			jiraProjects.add(POJOFromJson.getJiraProjectFromJson(object));
+			jiraProjects.add(pojoFromJson.getJiraProjectFromJson(object));
 		}
 		return jiraProjects;
 	}
@@ -63,7 +64,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 		String resultString = SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/3/project/"+jiraProjId, RequestType.GET);
 		JSONObject jiraJsonObjectsJsonObject = new JSONObject(resultString);
 		
-		return POJOFromJson.getProjectDetailsFromJson(jiraJsonObjectsJsonObject);
+		return pojoFromJson.getProjectDetailsFromJson(jiraJsonObjectsJsonObject);
 		
 	}
 
@@ -71,7 +72,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 	public JIRAIssueDetail getIssueFromId(String jiraIssueId) {
 		String resultString = SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/3/issue/"+jiraIssueId, RequestType.GET);
 		JSONObject issueJsonObject = new JSONObject(resultString);
-		return POJOFromJson.getIssueDetailFromJson(issueJsonObject);
+		return pojoFromJson.getIssueDetailFromJson(issueJsonObject);
 	}
 
 	@Override
@@ -82,7 +83,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 		ArrayList<JIRADashboard> jiraDashboards = new ArrayList<>();
 		for (int i = 0; i< dbs.length(); i++)
 		{
-			jiraDashboards.add(POJOFromJson.getDashboardFromJson(dbs.getJSONObject(i)));
+			jiraDashboards.add(pojoFromJson.getDashboardFromJson(dbs.getJSONObject(i)));
 		}
 		return jiraDashboards;
 	}
@@ -90,6 +91,21 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 	@Override
 	public String getDashboardView(String dashboardId) {
 		return SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/3/dashboard/"+dashboardId, RequestType.GET);
+	}
+
+	@Override
+	public String getAllBoard() {
+		return SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/greenhopper/1.0/rapidview", RequestType.GET);
+	}
+
+	@Override
+	public String getAllSprints(int boardID) {
+		return SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/agile/1.0/board/"+boardID+"/sprint", RequestType.GET);
+	}
+
+	@Override
+	public String getSprintFromId(int sprintId) {
+		return SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/2/search?jql=Sprint="+sprintId, RequestType.GET);
 	}
 
 

@@ -15,5 +15,9 @@ public interface IJIRAIPIInteractor {
 	public JIRAIssueDetail getIssueFromId(String jiraIssueId);
 	public ArrayList<JIRADashboard> getDashboards();
 	public String getDashboardView(String dashboardId);
+	public String getAllBoard();
+	public String getAllSprints(int boardID);
+	public String getSprintFromId(int sprintId);
+
 	
 }

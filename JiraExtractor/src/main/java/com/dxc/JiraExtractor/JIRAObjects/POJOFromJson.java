@@ -6,7 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class POJOFromJson {
-	public static JIRAProjectDetail getProjectDetailsFromJson(JSONObject json) {
+	public  JIRAProjectDetail getProjectDetailsFromJson(JSONObject json) {
 		JIRAProjectDetail projectDetail = new JIRAProjectDetail();
 		projectDetail.setUrl(json.getString("self"));
 		projectDetail.setId(json.getString("id"));
@@ -64,7 +64,7 @@ public class POJOFromJson {
 		return projectDetail;
 	}
 	
-	public static JIRAIssue getIssueTypeFromJson(JSONObject issueJ) {
+	public  JIRAIssue getIssueTypeFromJson(JSONObject issueJ) {
 		JIRAIssue issue = new JIRAIssue();
 		issue.setSelf(issueJ.getString("self"));
 		issue.setId(issueJ.getString("id"));
@@ -76,7 +76,7 @@ public class POJOFromJson {
 		return issue;
 	}	
 	
-	public static JIRAProjectUser getProjectUserFromJson(JSONObject lead)
+	public  JIRAProjectUser getProjectUserFromJson(JSONObject lead)
 	{
 		
 		JIRAProjectUser user = new JIRAProjectUser();
@@ -91,7 +91,7 @@ public class POJOFromJson {
 		return user;
 	}
 	
-	public static JIRAProject getJiraProjectFromJson(JSONObject object)
+	public  JIRAProject getJiraProjectFromJson(JSONObject object)
 	{
 		JIRAProject jiraProject = new JIRAProject();
 		jiraProject.setId(object.getString("id"));
@@ -110,7 +110,7 @@ public class POJOFromJson {
 		return jiraProject;
 	}
 	
-	public static JIRAIssueDetail getIssueDetailFromJson(JSONObject object)
+	public  JIRAIssueDetail getIssueDetailFromJson(JSONObject object)
 	{
 		JSONObject contentJ = object.getJSONObject("fields");
 		
@@ -118,28 +118,41 @@ public class POJOFromJson {
 		jiraDetail.setId(object.getString("id"));
 		jiraDetail.setKey(object.getString("key"));
 		//jiraDetail.setSummary(object.getString("summary"));
-		jiraDetail.setProject(POJOFromJson.getJiraProjectFromJson(contentJ.getJSONObject("project")));
-		jiraDetail.setIssueType(POJOFromJson.getIssueTypeFromJson(contentJ.getJSONObject("issuetype")));
+		jiraDetail.setProject(getJiraProjectFromJson(contentJ.getJSONObject("project")));
+		jiraDetail.setIssueType(getIssueTypeFromJson(contentJ.getJSONObject("issuetype")));
 		
-		jiraDetail.setCreator(POJOFromJson.getProjectUserFromJson(contentJ.getJSONObject("creator")));
-		jiraDetail.setReporter(POJOFromJson.getProjectUserFromJson(contentJ.getJSONObject("reporter")));
+		jiraDetail.setCreator(getProjectUserFromJson(contentJ.getJSONObject("creator")));
+		jiraDetail.setReporter(getProjectUserFromJson(contentJ.getJSONObject("reporter")));
 		
 		try {
 			JSONObject j = contentJ.getJSONObject("assignee");
-			jiraDetail.setAssignee(POJOFromJson.getProjectUserFromJson(j));
+			jiraDetail.setAssignee(getProjectUserFromJson(j));
 		}
 		catch(Exception e) {e.printStackTrace();}
 		
 		return jiraDetail;
 	}
 
-	public static JIRADashboard getDashboardFromJson(JSONObject json){
+	public  JIRADashboard getDashboardFromJson(JSONObject json){
 		JIRADashboard jiraDashboard = new JIRADashboard();
 		jiraDashboard.setId(json.getString("id"));
 		jiraDashboard.setName(json.getString("name"));
 		jiraDashboard.setUrl(json.getString("self"));
 		jiraDashboard.setView(json.getString("view"));
 		return  jiraDashboard;
+
+	}
+
+	public  JIRASprint getSprintFromJson(JSONObject jsonObject)
+	{
+		JIRASprint sprint = new JIRASprint();
+		sprint.setId(jsonObject.getInt("id"));
+		sprint.setState(jsonObject.getString("state"));
+		sprint.setName(jsonObject.getString("name"));
+		//sprint.setStartDate(jsonObject.getString("startDate"));
+		//sprint.setEndDate(jsonObject.getString("endDate"));
+		//sprint.setGoal(jsonObject.getString("goal"));
+		return sprint;
 
 	}
 	
