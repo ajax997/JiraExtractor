@@ -42,4 +42,5 @@ public class JIRADashboard {
 
     private String view;
 
+
 }

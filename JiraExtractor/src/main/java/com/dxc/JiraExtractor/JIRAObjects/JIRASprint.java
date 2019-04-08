@@ -10,6 +10,7 @@ public class JIRASprint {
 	private String name;
 	private int id;
 	private String goal;
+	private int projectID;
 
 	public ArrayList<JIRAIssueDetail> getIssues() {
 		return issues;
@@ -65,5 +66,13 @@ public class JIRASprint {
 
 	public void setGoal(String goal) {
 		this.goal = goal;
+	}
+
+    public void setProjectID(int projectID) {
+		this.projectID = projectID;
+    }
+    public int getProjectID(int projectID)
+	{
+		return projectID;
 	}
 }

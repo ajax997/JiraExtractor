@@ -85,4 +85,6 @@ public class JIRAIssue {
     {
         this.subtask = subtask;
     }
+
+
 }
