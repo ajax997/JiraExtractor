@@ -1,9 +1,9 @@
 app.directive("menuDirect", function(){
     return {
         restrict: "E",
-        templateUrl: "views/menu.jsp",
+        templateUrl: "templates/menu.jsp",
         controller: function($scope){
-            
+            console.log($scope);
         }
     }
 });

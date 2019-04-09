@@ -1,0 +1,97 @@
+html, body {
+    height: 100%;
+}
+html {
+    font-size: 14px;
+}
+body {
+    overflow-x: hidden;
+}
+.titleProject .sidebar-toggle {
+    color: rgba(252, 255, 251, 0.85);
+    border: 1px solid white;
+    border-radius: 50%;
+    background: cornflowerblue;
+    font-size: 10px;
+    margin-top: -13px;
+}
+
+.sidebar-toggle{
+    position: absolute;
+    margin-left: 208px;
+}
+
+.sidebar {
+    min-width: 230px;
+    max-width: 230px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+.sidebar ul li a {
+    display: block;
+    padding: .75rem 1rem;
+    text-decoration: none;
+}
+.sidebar ul ul a {
+    padding-left: 2.5rem;
+}
+.sidebar [data-toggle="collapse"] {
+    position: relative;
+}
+.sidebar [data-toggle="collapse"]:before {
+    content: "\f0d7";
+    font-weight: 900;
+    position: absolute;
+    right: 1rem;
+}
+.sidebar.toggled {
+    margin-left: -210px;
+}
+
+.sidebar-blue ul li a {
+   color: rgba(255, 255, 255, .85);
+   font-size: medium;
+}
+.sidebar-blue ul li a:hover, .sidebar-blue ul .active a {
+    color: #FFF;
+    background: #11678e;
+}
+.bg-blue{
+    background: #006fc7;
+}
+
+.content {
+    width: 100%;
+    background-color: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        margin-left: -210px;
+    }
+    .sidebar.toggled {
+        margin-left: 0;
+    }
+}
+
+.titleProject{
+    text-align: center;
+    color: white;
+}
+
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}

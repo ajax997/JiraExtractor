@@ -1,0 +1,29 @@
+[{
+    "url": "https://jraproj.atlassian.net/rest/api/3/project/10001",
+    "id": "10001",
+    "name": "Final_Project",
+    "avatarUrl": "https://jraproj.atlassian.net/secure/projectavatar?avatarId\u003d10324",
+    "projectType": "software",
+    "isPrivate": false
+}, {
+    "url": "https://jraproj.atlassian.net/rest/api/3/project/10004",
+    "id": "10004",
+    "name": "KanBan",
+    "avatarUrl": "https://jraproj.atlassian.net/secure/projectavatar?avatarId\u003d10324",
+    "projectType": "software",
+    "isPrivate": false
+}, {
+    "url": "https://jraproj.atlassian.net/rest/api/3/project/10002",
+    "id": "10002",
+    "name": "Project2",
+    "avatarUrl": "https://jraproj.atlassian.net/secure/projectavatar?avatarId\u003d10324",
+    "projectType": "software",
+    "isPrivate": false
+}, {
+    "url": "https://jraproj.atlassian.net/rest/api/3/project/10003",
+    "id": "10003",
+    "name": "Test_Project1",
+    "avatarUrl": "https://jraproj.atlassian.net/secure/projectavatar?avatarId\u003d10324",
+    "projectType": "software",
+    "isPrivate": false
+}]

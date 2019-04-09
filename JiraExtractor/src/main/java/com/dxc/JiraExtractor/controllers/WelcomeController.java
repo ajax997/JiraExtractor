@@ -29,10 +29,10 @@ public class WelcomeController {
 		JIRAInteractor interactor = new JIRAInteractor(url);
 		boolean loginR = interactor.login(user, password);
 		if (loginR)
-			return "project";
+			return "Projects";
 		else
 		{
-			return "xxx";
+			return "login";
 		}
 	}
 }
