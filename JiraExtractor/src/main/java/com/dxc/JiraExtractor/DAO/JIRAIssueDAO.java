@@ -18,22 +18,22 @@ public class JIRAIssueDAO {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(issueDetail.getId()));
 
-            System.out.println("ISSUE ID" + Integer.parseInt(issueDetail.getId()));
+            System.out.println("ISSUE ID " + Integer.parseInt(issueDetail.getId()));
 
             preparedStatement.setString(2, issueDetail.getKey());
             preparedStatement.setString(3, issueDetail.getSummary());
             preparedStatement.setString(4, String.valueOf(issueDetail.getIssueType().getId()));
             //TODO missing ici
-            preparedStatement.setString(5, "-1");
+            preparedStatement.setString(5, null);
             preparedStatement.setString(6, issueDetail.getProject().getId());
             //TODO missing fixVersion
-            preparedStatement.setString(7, "");
+            preparedStatement.setInt(7, -1);
             preparedStatement.setString(8, issueDetail.getAssignee().getAccountId());
             preparedStatement.setString(9, issueDetail.getCreator().getAccountId());
             preparedStatement.setString(10, issueDetail.getReporter().getAccountId());
             //TODO missing ici
-            preparedStatement.setString(11, "-1");
-            preparedStatement.setString(12, "");
+            preparedStatement.setString(11,null);
+            preparedStatement.setString(12, null);
 
             preparedStatement.execute();
             System.out.println("INSERT COMPLETE!");

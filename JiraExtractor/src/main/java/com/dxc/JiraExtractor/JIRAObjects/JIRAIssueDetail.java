@@ -3,7 +3,7 @@ package com.dxc.JiraExtractor.JIRAObjects;
 public class JIRAIssueDetail {
 	private String id;
 	private String key;
-	private JIRAIssue issueType;
+	private JIRAIssueType issueType;
 	private JIRAProject project;
 	private JIRAProjectUser reporter;
 	private JIRAProjectUser creator;
@@ -22,10 +22,10 @@ public class JIRAIssueDetail {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	public JIRAIssue getIssueType() {
+	public JIRAIssueType getIssueType() {
 		return issueType;
 	}
-	public void setIssueType(JIRAIssue issueType) {
+	public void setIssueType(JIRAIssueType issueType) {
 		this.issueType = issueType;
 	}
 	public JIRAProject getProject() {

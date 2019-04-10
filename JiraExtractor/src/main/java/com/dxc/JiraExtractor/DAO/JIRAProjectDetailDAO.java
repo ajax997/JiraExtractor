@@ -19,11 +19,12 @@ public class JIRAProjectDetailDAO {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(projectDetail.getId()));
             preparedStatement.setString(2, projectDetail.getDescription());
-            preparedStatement.setString(3, projectDetail.getProjectUser().getKey());
+            preparedStatement.setString(3, projectDetail.getProjectUser().getAccountId());
             preparedStatement.execute();
             System.out.println("INSERT COMPLETE!");
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("LEAD ID >> "+projectDetail.getProjectUser().getAccountId());
         }
     }
 

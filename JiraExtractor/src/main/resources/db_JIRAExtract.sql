@@ -130,7 +130,7 @@ CREATE TABLE `issuetype` (
   `idIssuetype` INT NOT NULL,
   `description` varchar(1000) DEFAULT NULL,
   `iconUrl` varchar(1000) DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL,
+  `name` varchar(500) DEFAULT NULL,
   `subtask` binary(1) DEFAULT NULL,
   `self` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`idIssuetype`)

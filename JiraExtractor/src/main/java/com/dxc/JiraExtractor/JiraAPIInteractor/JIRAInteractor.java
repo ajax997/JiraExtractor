@@ -24,7 +24,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 
 	@Override
 	public boolean login(String email, String password) {
-		
+
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.accumulate("username", email);
 		jsonObject.accumulate("password", password);
@@ -33,7 +33,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 		JSONObject jsonResult = new JSONObject(resultString);
 		if (jsonResult.has("session")) {
 			ConfigStuffs.urlString = url;
-			
+
 			return true;
 		} else {
 			return false;
@@ -63,9 +63,9 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 	public JIRAProjectDetail getProjectByProjectId(String jiraProjId) {
 		String resultString = SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/3/project/"+jiraProjId, RequestType.GET);
 		JSONObject jiraJsonObjectsJsonObject = new JSONObject(resultString);
-		
+
 		return pojoFromJson.getProjectDetailsFromJson(jiraJsonObjectsJsonObject);
-		
+
 	}
 
 	@Override

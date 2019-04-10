@@ -17,7 +17,7 @@ public class JIRAAccountDAO {
         String sql = "INSERT INTO account (accountId, name, emailAddress, avatarUrl, displayName, active, self) values (?, ?, ?, ?, ?, ?, ?) ";
         try{
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
-            preparedStatement.setInt(1, Integer.parseInt(user.getAccountId()));
+            preparedStatement.setString(1, (user.getAccountId()));
             preparedStatement.setString(2,user.getName());
             preparedStatement.setString(3,"");
             preparedStatement.setString(4, user.getAvatarUrls());
@@ -29,7 +29,6 @@ public class JIRAAccountDAO {
             System.out.println("INSERT COMPLETE!");
         }
         catch (Exception e)
-
         {
             e.printStackTrace();
         }

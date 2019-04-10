@@ -26,7 +26,7 @@ public class POJOFromJson {
 		projectDetail.setProjectUser(getProjectUserFromJson(lead));
 		
 		//ISSUES
-		ArrayList<JIRAIssue> listIssues = new ArrayList<JIRAIssue>();
+		ArrayList<JIRAIssueType> listIssues = new ArrayList<JIRAIssueType>();
 		
 		JSONArray issuesArray = json.getJSONArray("issueTypes");
 		for(int i = 0 ; i< issuesArray.length(); i++)
@@ -71,8 +71,8 @@ public class POJOFromJson {
 		return projectDetail;
 	}
 	
-	public  JIRAIssue getIssueTypeFromJson(JSONObject issueJ) {
-		JIRAIssue issue = new JIRAIssue();
+	public JIRAIssueType getIssueTypeFromJson(JSONObject issueJ) {
+		JIRAIssueType issue = new JIRAIssueType();
 		issue.setSelf(issueJ.getString("self"));
 		issue.setId(issueJ.getString("id"));
 		issue.setDescription(issueJ.getString("description"));

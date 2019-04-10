@@ -1,6 +1,6 @@
 package com.dxc.JiraExtractor.DAO;
 
-import com.dxc.JiraExtractor.JIRAObjects.JIRAIssue;
+import com.dxc.JiraExtractor.JIRAObjects.JIRAIssueType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by nguyennghi on 2019-04-06 22:11
  */
 public class JIRAIssueTypeDAO {
-    public void addIssue(Connection cnn, JIRAIssue issue) {
+    public void addIssue(Connection cnn, JIRAIssueType issue) {
         String sql = "insert into issuetype (idIssuetype, description, iconUrl, name, subtask, self) values(?, ?, ?, ?, ?,?) ";
         try {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
@@ -28,8 +28,8 @@ public class JIRAIssueTypeDAO {
         }
     }
 
-    public ArrayList<JIRAIssue> getAllIssueType(Connection cnn, int issueID) {
-        ArrayList<JIRAIssue> issues = new ArrayList<>();
+    public ArrayList<JIRAIssueType> getAllIssueType(Connection cnn, int issueID) {
+        ArrayList<JIRAIssueType> issues = new ArrayList<>();
         String sql;
         if (issueID == -1) {
              sql = "select * from issuetype";
@@ -41,14 +41,14 @@ public class JIRAIssueTypeDAO {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                JIRAIssue jiraIssue = new JIRAIssue();
-                jiraIssue.setId(String.valueOf(resultSet.getInt("idIssuetype")));
-                jiraIssue.setDescription(resultSet.getString("description"));
-                jiraIssue.setIconUrl(resultSet.getString("iconUrl"));
-                jiraIssue.setName(resultSet.getString("name"));
-                jiraIssue.setSubtask(resultSet.getBoolean("subtask"));
+                JIRAIssueType jiraIssueType = new JIRAIssueType();
+                jiraIssueType.setId(String.valueOf(resultSet.getInt("idIssuetype")));
+                jiraIssueType.setDescription(resultSet.getString("description"));
+                jiraIssueType.setIconUrl(resultSet.getString("iconUrl"));
+                jiraIssueType.setName(resultSet.getString("name"));
+                jiraIssueType.setSubtask(resultSet.getBoolean("subtask"));
 
-                issues.add(jiraIssue);
+                issues.add(jiraIssueType);
             }
         } catch (Exception e) {
             e.printStackTrace();

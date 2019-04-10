@@ -64,11 +64,11 @@ public class RESTAPIController {
 		return interactor.getDashboardView(dashboardId);
 	}
 
-	@RequestMapping(value = "/api/{projectId}/users")
-    public String getUsers(@PathVariable String dashboardId)
+	@RequestMapping(value = "/api/users")
+    public String getUsers()
     {
-        //TODO
-        return "";
+		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
+        return new Gson().toJson(interactor.getAllUsers());
     }
 
 }

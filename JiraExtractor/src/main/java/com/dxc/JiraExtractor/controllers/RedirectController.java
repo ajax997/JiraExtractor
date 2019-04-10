@@ -1,20 +1,14 @@
 package com.dxc.JiraExtractor.controllers;
 
-import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Map;
 
 import com.dxc.JiraExtractor.ConfigStuffs;
 import com.dxc.JiraExtractor.DAO.*;
 import com.dxc.JiraExtractor.JIRAObjects.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.dxc.JiraExtractor.JiraAPIInteractor.JIRAInteractor;
 
@@ -50,6 +44,7 @@ public class RedirectController {
 		for (JIRAProjectUser projectUser: interactor.getAllUsers())
 		{
 			jiraAccountDAO.addAccount(MYSQLDAOHelper.getConnection(), projectUser);
+			System.out.println("IMPORT USER COMPLETED");
 		}
 
 		//IMPORT PROJECT
@@ -65,6 +60,13 @@ public class RedirectController {
 			JIRAProjectDetail detail = interactor.getProjectByProjectId(project.getId());
 			projectDetailDAO.addProjectDetail(MYSQLDAOHelper.getConnection(), detail);
 
+			//IMPORT SPRINTS
+			JIRASprintDAO jiraSprintDAO = new JIRASprintDAO();
+			for (JIRASprint sprint : interactor.getSprintsFromProjectID(project.getId())) {
+
+				jiraSprintDAO.addSprint(MYSQLDAOHelper.getConnection(), sprint, Integer.parseInt(project.getId()));
+			}
+
 			//IMPORT VERSION
 			JIRAVersionDAO jiraVersionDAO = new JIRAVersionDAO();
 			for (JIRAVersion jiraVersion : detail.getVersions()) {
@@ -73,20 +75,18 @@ public class RedirectController {
 
 			//IMPORT ISSUES
 			JIRAIssueTypeDAO issueTypeDAO = new JIRAIssueTypeDAO();
+			for (JIRAIssueType issue : detail.getIssues()) {
+				issueTypeDAO.addIssue(MYSQLDAOHelper.getConnection(), issue);
+			}
 
 			//IMPORT ISSUE DETAILS
 			JIRAIssueDAO issueDAO = new JIRAIssueDAO();
-			for (JIRAIssue issue : detail.getIssues()) {
-				issueTypeDAO.addIssue(MYSQLDAOHelper.getConnection(), issue);
+			for (JIRAIssueType issue : detail.getIssues()) {
+
 				issueDAO.addIssue(MYSQLDAOHelper.getConnection(), interactor.getIssueFromId(issue.getId()));
 			}
 
-			//IMPORT SPRINTS
-			JIRASprintDAO jiraSprintDAO = new JIRASprintDAO();
-			for (JIRASprint sprint : interactor.getSprintsFromProjectID(project.getId())) {
 
-				jiraSprintDAO.addSprint(MYSQLDAOHelper.getConnection(), sprint, Integer.parseInt(project.getId()));
-			}
 		}
 
 		//IMPORT DASHBOARD

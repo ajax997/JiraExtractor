@@ -1,9 +1,6 @@
 package com.dxc.JiraExtractor.JIRAObjects;
 
-import java.net.URL;
 import java.util.ArrayList;
-
-import com.fasterxml.jackson.core.Version;
 
 public class JIRAProjectDetail {
 	private String url;
@@ -11,7 +8,7 @@ public class JIRAProjectDetail {
 	private String key;
 	private String description;
 	private JIRAProjectUser projectUser;
-	private ArrayList<JIRAIssue> issues;
+	private ArrayList<JIRAIssueType> issues;
 	private String assigneeType;
 	private ArrayList<JIRAVersion> versions;
 	private String name;
@@ -48,10 +45,10 @@ public class JIRAProjectDetail {
 	public void setProjectUser(JIRAProjectUser projectUser) {
 		this.projectUser = projectUser;
 	}
-	public ArrayList<JIRAIssue> getIssues() {
+	public ArrayList<JIRAIssueType> getIssues() {
 		return issues;
 	}
-	public void setIssues(ArrayList<JIRAIssue> issues) {
+	public void setIssues(ArrayList<JIRAIssueType> issues) {
 		this.issues = issues;
 	}
 	public String getAssigneeType() {

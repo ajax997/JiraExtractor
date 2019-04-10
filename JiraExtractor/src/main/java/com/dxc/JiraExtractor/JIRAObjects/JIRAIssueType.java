@@ -1,7 +1,7 @@
 package com.dxc.JiraExtractor.JIRAObjects;
 
 
-public class JIRAIssue {
+public class JIRAIssueType {
 	private int avatarId;
 
     private String name;
