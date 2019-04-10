@@ -12,24 +12,21 @@ import java.util.ArrayList;
  * Created by nguyennghi on 2019-04-06 22:12
  */
 public class JIRASprintDAO {
-    public void addSprint(Connection cnn, JIRASprint sprint, int project)
-    {
-        String sql = "insert into sprint(idSprint=?, name=?, state=?, startDate=?, endDate=?, project=?)  ";
+    public void addSprint(Connection cnn, JIRASprint sprint, int project) {
+        String sql = "insert into sprint (idSprint, name, state, startDate, endDate, project, self) values (?, ?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
-            preparedStatement.setInt(1,sprint.getId());
+            preparedStatement.setInt(1, sprint.getId());
             preparedStatement.setString(2, sprint.getName());
             preparedStatement.setString(3, sprint.getState());
             preparedStatement.setString(4, sprint.getStartDate());
             preparedStatement.setString(5, sprint.getEndDate());
             preparedStatement.setInt(6, project);
-
+            preparedStatement.setString(7, "");
             preparedStatement.execute();
+            System.out.println("INSERT COMPLETE!");
             //TODO missing projects
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

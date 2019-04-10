@@ -109,4 +109,71 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 	}
 
 
+
+	@Override
+	public ArrayList<JIRASprint> getSprintsFromProjectID(String projectId)
+	{
+		POJOFromJson pojoFromJson = new POJOFromJson();
+		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
+		JSONObject boards = new JSONObject(interactor.getAllBoard());
+		JSONArray views = boards.getJSONArray("views");
+
+		ArrayList<JIRASprint> sprintArray = new ArrayList<>();
+		for(int i = 0 ; i< views.length(); i++)
+		{
+			JSONObject board = views.getJSONObject(i);
+			if (board.getBoolean("sprintSupportEnabled")){
+				JSONObject sprints = new JSONObject(interactor.getAllSprints(board.getInt("id")));
+				JSONArray sprintList = sprints.getJSONArray("values");
+				for (int j = 0; j< sprintList.length(); j++)
+				{
+					JSONObject object = sprintList.getJSONObject(j);
+					sprintArray.add(pojoFromJson.getSprintFromJson(object));
+				}
+			}
+		}
+		ArrayList<JIRASprint> sprintResults = new ArrayList<>();
+		for (JIRASprint sprint: sprintArray){
+			JSONObject sprintDetails = new JSONObject(interactor.getSprintFromId(sprint.getId()));
+			JSONArray sprintDetailsIssue = sprintDetails.getJSONArray("issues");
+			if(sprintDetailsIssue.length()>=1)
+			{
+				JSONObject projectOfIssue = sprintDetailsIssue.getJSONObject(0).getJSONObject("fields").getJSONObject("project");
+
+				ArrayList<JIRAIssueDetail> issueDetailsOfObject = new ArrayList<>();
+				for (int i = 0; i< sprintDetailsIssue.length(); i++)
+				{
+					JIRAIssueDetail issue = pojoFromJson.getIssueDetailFromJson(sprintDetailsIssue.getJSONObject(i));
+					issueDetailsOfObject.add(issue);
+				}
+				sprint.setIssues(issueDetailsOfObject);
+
+				if(projectOfIssue.getString("id").equals(projectId))
+				{
+					sprintResults.add(sprint);
+				}
+			}
+		}
+		return sprintResults;
+	}
+
+	@Override
+	public ArrayList<JIRAProjectUser> getAllUsers()
+	{
+		ArrayList<JIRAProjectUser> projectUsers = new ArrayList<>();
+		JSONArray jsonArray = new JSONArray(SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/2/user/search?username=%25&startAt=0&maxResults=1000", RequestType.GET));
+
+		for(int i =0 ; i< jsonArray.length(); i++)
+		{
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
+			if(jsonObject.getString("accountType").equals("atlassian"))
+			{
+				JIRAProjectUser projectUser = pojoFromJson.getAccountFromJSON(jsonObject);
+				projectUsers.add(projectUser);
+			}
+		}
+
+		return projectUsers;
+	}
+
 }

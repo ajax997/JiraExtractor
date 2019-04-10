@@ -6,20 +6,23 @@ import java.sql.DriverManager;
 /**
  * Created by nguyennghi on 2019-04-06 21:35
  */
-public class MYSQLDAOHelper implements SQLHelper {
-    @Override
-    public Connection getConnection() {
-        Config config = new Config();
-        Connection conn = null;
-        try {
-            Class.forName(config.getDriver());
-            String urlString = "jdbc:mysql://" + config.getServer() + ":" + config.getPort() + "/" + config.getDatabase();
-            conn = DriverManager.getConnection(urlString, config.getUserId(), config.getPassword());
-            //conn = DriverManager.getConnection ("jdbc:mysql://localhost:3306/jira_extract","root", "");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+public class MYSQLDAOHelper {
+
+    static Connection conn = null;
+    public static Connection getConnection() {
+        if (conn != null) {
+            return conn;
+        } else {
+            Config config = new Config();
+            try {
+                Class.forName(config.getDriver());
+                String urlString = "jdbc:mysql://" + config.getServer() + ":" + config.getPort() + "/" + config.getDatabase();
+                conn = DriverManager.getConnection(urlString, config.getUserId(), config.getPassword());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return conn;
         }
-        return conn;
     }
 }

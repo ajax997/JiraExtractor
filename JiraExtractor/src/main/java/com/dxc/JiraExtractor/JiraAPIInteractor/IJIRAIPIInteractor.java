@@ -2,22 +2,20 @@ package com.dxc.JiraExtractor.JiraAPIInteractor;
 
 import java.util.ArrayList;
 
-import com.dxc.JiraExtractor.JIRAObjects.JIRADashboard;
-import com.dxc.JiraExtractor.JIRAObjects.JIRAIssueDetail;
-import com.dxc.JiraExtractor.JIRAObjects.JIRAProject;
-import com.dxc.JiraExtractor.JIRAObjects.JIRAProjectDetail;
+import com.dxc.JiraExtractor.JIRAObjects.*;
 
 public interface IJIRAIPIInteractor {
-	public boolean login(String email, String password);
-	public ArrayList<JIRAProject> getProjects();
-	public JIRAProject getProjectByName(String jiraName);
-	public JIRAProjectDetail getProjectByProjectId(String jiraProjId);
-	public JIRAIssueDetail getIssueFromId(String jiraIssueId);
-	public ArrayList<JIRADashboard> getDashboards();
-	public String getDashboardView(String dashboardId);
-	public String getAllBoard();
-	public String getAllSprints(int boardID);
-	public String getSprintFromId(int sprintId);
-
+	boolean login(String email, String password);
+	ArrayList<JIRAProject> getProjects();
+	JIRAProject getProjectByName(String jiraName);
+	JIRAProjectDetail getProjectByProjectId(String jiraProjId);
+	JIRAIssueDetail getIssueFromId(String jiraIssueId);
+	ArrayList<JIRADashboard> getDashboards();
+	String getDashboardView(String dashboardId);
+	String getAllBoard();
+	String getAllSprints(int boardID);
+	String getSprintFromId(int sprintId);
+	ArrayList<JIRASprint> getSprintsFromProjectID(String projectID);
+	ArrayList<JIRAProjectUser> getAllUsers();
 	
 }

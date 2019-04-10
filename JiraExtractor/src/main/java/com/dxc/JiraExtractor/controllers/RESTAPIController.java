@@ -45,52 +45,8 @@ public class RESTAPIController {
 	@RequestMapping(value = "/api/{projectId}/sprints")
 	public String getSprint(@PathVariable String projectId)
 	{
-	    POJOFromJson pojoFromJson = new POJOFromJson();
-		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
-        JSONObject boards = new JSONObject(interactor.getAllBoard());
-        JSONArray views = boards.getJSONArray("views");
-
-        ArrayList<JIRASprint> sprintArray = new ArrayList<>();
-
-
-        for(int i = 0 ; i< views.length(); i++)
-        {
-            JSONObject board = views.getJSONObject(i);
-            if (board.getBoolean("sprintSupportEnabled")){
-                JSONObject sprints = new JSONObject(interactor.getAllSprints(board.getInt("id")));
-                JSONArray sprintList = sprints.getJSONArray("values");
-                for (int j = 0; j< sprintList.length(); j++)
-                {
-                    JSONObject object = sprintList.getJSONObject(j);
-                    sprintArray.add(pojoFromJson.getSprintFromJson(object));
-                }
-            }
-        }
-        ArrayList<JIRASprint> sprintResults = new ArrayList<>();
-        for (JIRASprint sprint: sprintArray){
-            JSONObject sprintDetails = new JSONObject(interactor.getSprintFromId(sprint.getId()));
-            JSONArray sprintDetailsIssue = sprintDetails.getJSONArray("issues");
-            if(sprintDetailsIssue.length()>=1)
-            {
-                JSONObject projectOfIssue = sprintDetailsIssue.getJSONObject(0).getJSONObject("fields").getJSONObject("project");
-
-                ArrayList<JIRAIssueDetail> issueDetailsOfObject = new ArrayList<>();
-                for (int i = 0; i< sprintDetailsIssue.length(); i++)
-                {
-                    JIRAIssueDetail issue = pojoFromJson.getIssueDetailFromJson(sprintDetailsIssue.getJSONObject(i));
-                    issueDetailsOfObject.add(issue);
-                }
-                sprint.setIssues(issueDetailsOfObject);
-
-                if(projectOfIssue.getString("id").equals(projectId))
-                {
-                    sprintResults.add(sprint);
-                }
-            }
-        }
-
 		//TODO
-		return new Gson().toJson(sprintResults);
+		return new Gson().toJson(new JIRAInteractor(ConfigStuffs.urlString).getSprintsFromProjectID(projectId));
 	}
 
 	@RequestMapping(value = "/api/dashboards")

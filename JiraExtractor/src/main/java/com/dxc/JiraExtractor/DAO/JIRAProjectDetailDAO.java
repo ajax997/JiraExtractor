@@ -14,13 +14,14 @@ import java.util.ArrayList;
  */
 public class JIRAProjectDetailDAO {
     public void addProjectDetail(Connection cnn, JIRAProjectDetail projectDetail) {
-        String sql = "insert into projectdetail(idProject=?, description=?, lead=?) ";
+        String sql = "insert into projectdetail (idProject, description, `lead`) values (?, ?, ?) ";
         try {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(projectDetail.getId()));
             preparedStatement.setString(2, projectDetail.getDescription());
             preparedStatement.setString(3, projectDetail.getProjectUser().getKey());
             preparedStatement.execute();
+            System.out.println("INSERT COMPLETE!");
         } catch (Exception e) {
             e.printStackTrace();
         }

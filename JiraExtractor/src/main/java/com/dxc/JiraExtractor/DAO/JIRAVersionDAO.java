@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class JIRAVersionDAO {
     public void addVersion(Connection cnn, JIRAVersion version) {
-        String sql = "insert into version (idVersion=?, description=?, name=?, archived=?, released=?, startDate=?, releaseDate=?, projectId=?) ";
+        String sql = "insert into version (idVersion, description, name, archived, released, startDate, releaseDate, projectId, self) values(?, ?, ?, ?, ?, ?, ?, ?,?) ";
         try {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(version.getId()));
@@ -23,7 +23,9 @@ public class JIRAVersionDAO {
             preparedStatement.setString(6, version.getStartDate());
             preparedStatement.setString(7, version.getReleaseDate());
             preparedStatement.setInt(8, version.getProjectId());
+            preparedStatement.setString(9, version.getSelf());
             preparedStatement.execute();
+            System.out.println("INSERT COMPLETE!");
 
         } catch (Exception e) {
             e.printStackTrace();

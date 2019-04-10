@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class JIRAProjectDAO {
     public void addProject(Connection cnn, JIRAProject project)
     {
-        String sql = "insert into project(idProject=?, key=?, name=?, avatarUrl=?, projectTypeKey=?, isPrivate=?)";
+        String sql = "insert into project(idProject, _key, name, avatarUrl, projectTypeKey, isPrivate, self) values(?,?,?,?,?,?,?)";
         try{
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(project.getId()));
@@ -22,17 +22,22 @@ public class JIRAProjectDAO {
             preparedStatement.setString(4, project.getAvatarUrl());
             preparedStatement.setString(5, project.getProjectType());
             preparedStatement.setBoolean(6, project.isPrivate());
+            preparedStatement.setString(7, project.getUrl());
+
             preparedStatement.execute();
+            System.out.println("INSERT COMPLETE!");
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
     }
-    public ArrayList<JIRAProject> getAllProject(Connection cnn)
+    public ArrayList<JIRAProject> getAllProject(Connection cnn, int projectID)
     {
         ArrayList<JIRAProject> projects = new ArrayList<>();
         String sql = "select * from project";
+        if (projectID != -1)
+            sql = "select * from project where idProject = " + projectID;
         try {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();

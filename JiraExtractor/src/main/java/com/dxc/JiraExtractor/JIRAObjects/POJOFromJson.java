@@ -49,13 +49,20 @@ public class POJOFromJson {
 			version.setSelf(versionJ.getString("self"));
 			version.setId(versionJ.getString("id"));
 			version.setName(versionJ.getString("name"));
-			version.setStartDate(versionJ.getString("startDate"));
-			version.setReleaseDate(versionJ.getString("releaseDate"));
-			version.setDescription(versionJ.getString("description"));
-			
-			//version.setArchived(versionJ.getBoolean("archived"));
-			//version.setReleased(versionJ.getBoolean("released"));
-			//version.setProjectId(versionJ.getInt("projectId"));
+			try {
+				version.setStartDate(versionJ.getString("startDate"));
+				version.setReleaseDate(versionJ.getString("releaseDate"));
+				version.setDescription(versionJ.getString("description"));
+				version.setArchived(versionJ.getBoolean("archived"));
+				version.setReleased(versionJ.getBoolean("released"));
+				version.setProjectId(versionJ.getInt("projectId"));
+			}
+			catch (Exception e)
+			{
+				System.out.println("Error at HERE");
+			}
+
+
 			
 			listVersions.add(version);
 		}
@@ -123,12 +130,15 @@ public class POJOFromJson {
 		
 		jiraDetail.setCreator(getProjectUserFromJson(contentJ.getJSONObject("creator")));
 		jiraDetail.setReporter(getProjectUserFromJson(contentJ.getJSONObject("reporter")));
-		
+
+
 		try {
 			JSONObject j = contentJ.getJSONObject("assignee");
 			jiraDetail.setAssignee(getProjectUserFromJson(j));
 		}
-		catch(Exception e) {e.printStackTrace();}
+		catch(Exception e) {
+			jiraDetail.setAssignee(new JIRAProjectUser());
+		}
 		
 		return jiraDetail;
 	}
@@ -155,5 +165,19 @@ public class POJOFromJson {
 		return sprint;
 
 	}
-	
+
+    public JIRAProjectUser getAccountFromJSON(JSONObject jsonObject) {
+		JIRAProjectUser jiraProjectUser= new JIRAProjectUser();
+		jiraProjectUser.setAccountId(jsonObject.getString("accountId"));
+		jiraProjectUser.setKey(jsonObject.getString("key"));
+		jiraProjectUser.setName(jsonObject.getString("name"));
+		jiraProjectUser.setDisplayName(jsonObject.getString("displayName"));
+		jiraProjectUser.setActive(jsonObject.getBoolean("active"));
+
+
+		JSONObject avtJ = jsonObject.getJSONObject("avatarUrls");
+
+		jiraProjectUser.setAvatarUrls(avtJ.getString("48x48"));
+		return  jiraProjectUser;
+    }
 }

@@ -14,6 +14,8 @@ public class JIRAIssue {
 
     private String iconUrl;
 
+    private String parent;
+
     private boolean subtask;
 
     public int getAvatarId ()
@@ -87,4 +89,11 @@ public class JIRAIssue {
     }
 
 
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
 }

@@ -12,14 +12,16 @@ import java.util.ArrayList;
  */
 public class JIRADashboardDAO {
     public void addDashboard(Connection cnn, JIRADashboard dashboard) {
-        String sql = "insert  into dashboard(idDashboard=?, name=?, view=?)";
+        String sql = "insert  into dashboard(idDashboard, name, _view, self) values(?, ?, ?, ?)";
 
         try {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(dashboard.getId()));
             preparedStatement.setString(2, dashboard.getName());
             preparedStatement.setString(3, dashboard.getView());
+            preparedStatement.setString(4, dashboard.getUrl());
             preparedStatement.execute();
+            System.out.println("INSERT COMPLETE!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,7 +40,6 @@ public class JIRADashboardDAO {
                 jiraDashboard.setId(String.valueOf(resultSet.getInt("idDashboard")));
                 jiraDashboard.setView(resultSet.getString("view"));
                 dashboards.add(jiraDashboard);
-
             }
         } catch (Exception e) {
             e.printStackTrace();

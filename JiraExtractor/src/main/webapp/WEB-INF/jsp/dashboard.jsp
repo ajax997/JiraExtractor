@@ -12,7 +12,6 @@
 </head>
 <body >
 
-
     <div class="d-flex">
         <div class="sidebar sidebar-blue bg-blue">
             <ul class="list-unstyled">

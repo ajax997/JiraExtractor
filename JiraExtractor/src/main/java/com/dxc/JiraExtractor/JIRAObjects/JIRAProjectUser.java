@@ -1,7 +1,7 @@
 package com.dxc.JiraExtractor.JIRAObjects;
 
 public class JIRAProjectUser {
-	private String accountId;
+	private String accountId = "-1";
 
     private String avatarUrls;
 

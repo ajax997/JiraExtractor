@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class JIRAAccountDAO {
     public void addAccount(Connection cnn, JIRAProjectUser user)
     {
-        String sql = "INSERT INTO account(accountId=?, name=?, emailAddress=?, avatarUrl=?, displayName=?, active=?) ";
+        String sql = "INSERT INTO account (accountId, name, emailAddress, avatarUrl, displayName, active, self) values (?, ?, ?, ?, ?, ?, ?) ";
         try{
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(user.getAccountId()));
@@ -23,8 +23,10 @@ public class JIRAAccountDAO {
             preparedStatement.setString(4, user.getAvatarUrls());
             preparedStatement.setString(5, user.getDisplayName());
             preparedStatement.setBoolean(6, user.getActive());
-            preparedStatement.execute();
+            preparedStatement.setString(7, user.getSelf());
 
+            preparedStatement.execute();
+            System.out.println("INSERT COMPLETE!");
         }
         catch (Exception e)
 
@@ -32,10 +34,13 @@ public class JIRAAccountDAO {
             e.printStackTrace();
         }
     }
-    public ArrayList<JIRAProjectUser> getAllUser(Connection cnn)
+    public ArrayList<JIRAProjectUser> getAllUser(Connection cnn, String userID)
     {
         ArrayList<JIRAProjectUser> users = null;
         String selectSQL = "Select * from account";
+        if(!userID.equals("*"))
+            selectSQL = "Select * from account where "+userID;
+
         try {
             PreparedStatement p = cnn.prepareStatement(selectSQL);
             users = new ArrayList<>();
