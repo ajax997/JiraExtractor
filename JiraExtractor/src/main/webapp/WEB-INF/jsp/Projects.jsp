@@ -14,21 +14,29 @@
     <script>
         var app=angular.module('myapp',['ngRoute']);
         app.config(function($routeProvider){
-            $routeProvider.when('/detail-project/:idProject', {
-               templateUrl: "templates/DetailProject.jsp" 
-            });
-            $routeProvider.when('/detail-issue', {
+            $routeProvider.when('/', {
+               templateUrl: "templates/dashboard.jsp"
+            }).when('/projects', {
+               templateUrl: "templates/ProjectList.jsp",
+               controller: 'issueCtr' 
+            }).when('/detail-project/:idProject', {
+               templateUrl: "templates/DetailProject.jsp",
+               controller: 'detailCtr' 
+            }).when('/detail-issue/:idIssue', {
                templateUrl: "templates/DetailIssue.jsp",
-               controller: 'detailCtr'
-            });
-            $routeProvider.otherwise({
-               templateUrl: "templates/ProjectList.jsp" 
+               controller: 'issueCtr' 
+            }).otherwise({
+               templateUrl: "templates/ProjectList.jsp",
+                controller: 'mainCtrl'
             });
         });
     </script>
      <script src="directives/menuDirective.js"></script>
+     <script src="directives/issueDirective.js"></script>
+    
     <script src="controllers/loadProjects.js"></script>
     <script src="controllers/projectController.js"></script>
+    <script src="controllers/issueController.js"></script>
     
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/fontawesome-all.min.css">
@@ -36,7 +44,7 @@
 </head>
 <body>
 
-    <div class="d-flex">
+    <div class="d-flex" ng-init="index=0">
         <!--Menu-->
         <menu-direct></menu-direct>
         <div class="content p-4">

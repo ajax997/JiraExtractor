@@ -16,11 +16,10 @@
 .card-parent {
     margin-bottom: 5px;
 }
-#accordion-sprint1, #accordion-sprint2, #accordion1{
+.sprint, #accordion1{
     width: 100%;
 }
-#accordion-sprint1 .card-parent
-, #accordion-sprint2 .card-parent, #accordion1 .card-parent{
+.sprint .card-parent, #accordion1 .card-parent{
     border: none;
 }
 .card-header{
@@ -76,9 +75,9 @@
 	padding: 5px;
 }
 .issue-badge{
-	width: 100%;
     text-align: right;
     font-size: 16px;
+    flex: auto;
 }
 .issue-badge .badge-secondary{
 	text-transform: uppercase;
