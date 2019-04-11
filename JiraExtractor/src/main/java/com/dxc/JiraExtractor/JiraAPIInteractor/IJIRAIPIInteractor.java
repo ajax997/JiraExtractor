@@ -15,6 +15,9 @@ public interface IJIRAIPIInteractor {
 	String getAllBoard();
 	String getAllSprints(int boardID);
 	String getSprintFromId(int sprintId);
+
+	ArrayList<JIRAIssueDetail> getIssueFromProjectKey(String key);
+
 	ArrayList<JIRASprint> getSprintsFromProjectID(String projectID);
 	ArrayList<JIRAProjectUser> getAllUsers();
 	

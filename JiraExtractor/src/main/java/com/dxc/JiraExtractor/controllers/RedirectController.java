@@ -1,5 +1,8 @@
 package com.dxc.JiraExtractor.controllers;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.dxc.JiraExtractor.ConfigStuffs;
@@ -26,14 +29,15 @@ public class RedirectController {
 	public String login(@RequestParam("link") String url,@RequestParam("email") String user, @RequestParam("pass") String password) {
 		JIRAInteractor interactor = new JIRAInteractor(url);
 		boolean loginR = interactor.login(user, password);
-		if (loginR)
-			return "Projects";
+		if (loginR) {
+            new ManipulationDatabase().addTables();
+            return "Projects";
+        }
 		else
 		{
 			return "login";
 		}
 	}
-
 
 	@RequestMapping(value = "/import")
 	public String importProject() {
@@ -81,12 +85,10 @@ public class RedirectController {
 
 			//IMPORT ISSUE DETAILS
 			JIRAIssueDAO issueDAO = new JIRAIssueDAO();
-			for (JIRAIssueType issue : detail.getIssues()) {
+			for (JIRAIssueDetail issue : interactor.getIssueFromProjectKey(project.getKey())) {
 
 				issueDAO.addIssue(MYSQLDAOHelper.getConnection(), interactor.getIssueFromId(issue.getId()));
 			}
-
-
 		}
 
 		//IMPORT DASHBOARD
@@ -104,7 +106,8 @@ public class RedirectController {
 	@RequestMapping(value = "/logout")
 	public String logout()
 	{
-		//TODO
-		return "/";
+        new ManipulationDatabase().dropTables();
+
+        return "/";
 	}
 }

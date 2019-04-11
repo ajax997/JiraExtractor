@@ -96,4 +96,6 @@ public class JIRAIssueType {
     public void setParent(String parent) {
         this.parent = parent;
     }
+
+
 }

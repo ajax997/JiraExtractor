@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `jira_extract` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `jira_extract` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `jira_extract`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
@@ -33,7 +33,7 @@ CREATE TABLE `account` (
   `active` binary(1) DEFAULT NULL,
   `self` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`accountId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -58,7 +58,7 @@ CREATE TABLE `dashboard` (
   `_view` text,
   `self` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`idDashboard`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `issue` (
   `reporter` varchar(45) DEFAULT NULL,
   `sprint` INT DEFAULT NULL,
   `self` varchar(1000) DEFAULT NULL,
-  PRIMARY KEY (`idIssue`),
+  PRIMARY KEY (`idIssue`, `project`),
   KEY `fk_Issue_IssueType_idx` (`issuetype`),
   KEY `fk_Issue_IssueParent_idx` (`parent`),
   KEY `fk_Issue_Project_idx` (`project`),
@@ -107,7 +107,7 @@ CREATE TABLE `issue` (
   CONSTRAINT `fk_Issue_Reposter` FOREIGN KEY (`reporter`) REFERENCES `account` (`accountId`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `fk_Issue_Sprint` FOREIGN KEY (`sprint`) REFERENCES `sprint` (`idSprint`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `fk_Issue_Version` FOREIGN KEY (`fixVersions`) REFERENCES `version` (`idVersion`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,13 +128,14 @@ DROP TABLE IF EXISTS `issuetype`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `issuetype` (
   `idIssuetype` INT NOT NULL,
+  `project` INT NOT NULL,
   `description` varchar(1000) DEFAULT NULL,
   `iconUrl` varchar(1000) DEFAULT NULL,
   `name` varchar(500) DEFAULT NULL,
   `subtask` binary(1) DEFAULT NULL,
   `self` varchar(1000) DEFAULT NULL,
-  PRIMARY KEY (`idIssuetype`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`idIssuetype`,`project`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,10 +156,10 @@ DROP TABLE IF EXISTS `project`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `project` (
   `idProject` INT NOT NULL,
-  `_key` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
-  `name` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
-  `avatarUrl` varchar(1000) CHARACTER SET latin1 DEFAULT NULL,
-  `projectTypeKey` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
+  `_key` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
+  `name` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `avatarUrl` varchar(1000) CHARACTER SET utf8 DEFAULT NULL,
+  `projectTypeKey` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
   `isPrivate` binary(1) DEFAULT NULL,
   `self` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`idProject`)
@@ -189,7 +190,7 @@ CREATE TABLE `projectdetail` (
   KEY `fk_Project_Account_lead_idx` (`lead`),
   CONSTRAINT `fk_Detail_Project` FOREIGN KEY (`idProject`) REFERENCES `project` (`idProject`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_Project_Account_lead` FOREIGN KEY (`lead`) REFERENCES `account` (`accountId`) ON DELETE SET NULL ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -216,10 +217,10 @@ CREATE TABLE `sprint` (
   `endDate` varchar(45) DEFAULT NULL,
   `project` INT DEFAULT NULL,
   `self` varchar(1000) DEFAULT NULL,
-  PRIMARY KEY (`idSprint`),
+  PRIMARY KEY (`idSprint`, `project`),
   KEY `fk_Sprint_Project_idx` (`project`),
   CONSTRAINT `fk_Sprint_Project` FOREIGN KEY (`project`) REFERENCES `projectdetail` (`idProject`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,10 +249,10 @@ CREATE TABLE `version` (
   `releaseDate` varchar(45) DEFAULT NULL,
   `projectId` INT DEFAULT NULL,
   `self` varchar(1000) DEFAULT NULL,
-  PRIMARY KEY (`idVersion`),
+  PRIMARY KEY (`idVersion`,`projectId`),
   KEY `fk_Vesion_Project_idx` (`projectId`),
   CONSTRAINT `fk_Vesion_Project` FOREIGN KEY (`projectId`) REFERENCES `projectdetail` (`idProject`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

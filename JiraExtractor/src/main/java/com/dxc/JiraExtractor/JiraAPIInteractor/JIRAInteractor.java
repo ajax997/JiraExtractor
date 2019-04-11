@@ -3,6 +3,7 @@ package com.dxc.JiraExtractor.JiraAPIInteractor;
 import java.util.ArrayList;
 
 import com.dxc.JiraExtractor.JIRAObjects.*;
+import com.google.gson.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -106,6 +107,20 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 	@Override
 	public String getSprintFromId(int sprintId) {
 		return SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/2/search?jql=Sprint="+sprintId, RequestType.GET);
+	}
+
+	@Override
+	public ArrayList<JIRAIssueDetail> getIssueFromProjectKey(String key)
+	{
+		ArrayList<JIRAIssueDetail> issueDetails = new ArrayList<>();
+		String res = SendRequest.sendRequest(ConfigStuffs.urlString + "/rest/api/2/search?jql=project="+key, RequestType.GET);
+		JSONObject issues = new JSONObject(res);
+		JSONArray jsonArray = issues.getJSONArray("issues");
+		for(int i = 0; i< jsonArray.length(); i++)
+		{
+			issueDetails.add(pojoFromJson.getIssueDetailFromJson((jsonArray.getJSONObject(i))));
+		}
+		return issueDetails;
 	}
 
 

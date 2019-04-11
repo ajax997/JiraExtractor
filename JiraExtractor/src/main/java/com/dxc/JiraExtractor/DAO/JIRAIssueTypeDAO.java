@@ -5,6 +5,7 @@ import com.dxc.JiraExtractor.JIRAObjects.JIRAIssueType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +25,10 @@ public class JIRAIssueTypeDAO {
             preparedStatement.execute();
             System.out.println("INSERT COMPLETE!");
         } catch (Exception e) {
-            e.printStackTrace();
+            if (e instanceof SQLIntegrityConstraintViolationException)
+            {
+                System.out.println(e.getMessage());
+            }
         }
     }
 

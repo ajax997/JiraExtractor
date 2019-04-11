@@ -12,62 +12,55 @@ public class POJOFromJson {
 		projectDetail.setId(json.getString("id"));
 		projectDetail.setKey(json.getString("key"));
 		projectDetail.setDescription(json.getString("description"));
-		
+
 		projectDetail.setAssigneeType(json.getString("assigneeType"));
 		projectDetail.setName(json.getString("name"));
 		projectDetail.setProjectType(json.getString("projectTypeKey"));
 		projectDetail.setPrivate(json.getBoolean("isPrivate"));
-		
+
 		JSONObject jsonAvatars = json.getJSONObject("avatarUrls");
 		projectDetail.setAvatarUrl(jsonAvatars.getString("48x48"));
-		
+
 		//LEAD
 		JSONObject lead = json.getJSONObject("lead");
 		projectDetail.setProjectUser(getProjectUserFromJson(lead));
-		
+
 		//ISSUES
 		ArrayList<JIRAIssueType> listIssues = new ArrayList<JIRAIssueType>();
-		
+
 		JSONArray issuesArray = json.getJSONArray("issueTypes");
-		for(int i = 0 ; i< issuesArray.length(); i++)
-		{
+		for (int i = 0; i < issuesArray.length(); i++) {
 			JSONObject issueJ = issuesArray.getJSONObject(i);
-			
+
 			listIssues.add(getIssueTypeFromJson(issueJ));
 		}
 		projectDetail.setIssues(listIssues);
-		
+
 		//VERSION
-		
+
 		ArrayList<JIRAVersion> listVersions = new ArrayList<JIRAVersion>();
-		
+
 		JSONArray versionArray = json.getJSONArray("versions");
-		for(int i = 0 ; i< versionArray.length(); i++)
-		{
-			JSONObject versionJ = issuesArray.getJSONObject(i);
+		for (int i = 0; i < versionArray.length(); i++) {
+			JSONObject versionJ = versionArray.getJSONObject(i);
 			JIRAVersion version = new JIRAVersion();
 			version.setSelf(versionJ.getString("self"));
 			version.setId(versionJ.getString("id"));
 			version.setName(versionJ.getString("name"));
+			version.setProjectId(versionJ.getInt("projectId"));
 			try {
 				version.setStartDate(versionJ.getString("startDate"));
 				version.setReleaseDate(versionJ.getString("releaseDate"));
 				version.setDescription(versionJ.getString("description"));
-				version.setArchived(versionJ.getBoolean("archived"));
-				version.setReleased(versionJ.getBoolean("released"));
-				version.setProjectId(versionJ.getInt("projectId"));
+			} catch (Exception e) {
+				System.out.println("ISSUE " + versionJ.getString("id") + " have no description");
 			}
-			catch (Exception e)
-			{
-				System.out.println("Error at HERE");
-			}
-
-
-			
+			version.setArchived(versionJ.getBoolean("archived"));
+			version.setReleased(versionJ.getBoolean("released"));
 			listVersions.add(version);
 		}
 		projectDetail.setVersions(listVersions);
-		
+
 		return projectDetail;
 	}
 	
@@ -102,6 +95,7 @@ public class POJOFromJson {
 	{
 		JIRAProject jiraProject = new JIRAProject();
 		jiraProject.setId(object.getString("id"));
+		jiraProject.setKey(object.getString("key"));
 		jiraProject.setUrl(object.getString("self"));
 		jiraProject.setName(object.getString("name"));
 		jiraProject.setProjectType(object.getString("projectTypeKey"));
@@ -126,6 +120,9 @@ public class POJOFromJson {
 		jiraDetail.setKey(object.getString("key"));
 		//jiraDetail.setSummary(object.getString("summary"));
 		jiraDetail.setProject(getJiraProjectFromJson(contentJ.getJSONObject("project")));
+
+		JSONObject jsonObject = contentJ.getJSONObject("project");
+
 		jiraDetail.setIssueType(getIssueTypeFromJson(contentJ.getJSONObject("issuetype")));
 		
 		jiraDetail.setCreator(getProjectUserFromJson(contentJ.getJSONObject("creator")));
@@ -133,11 +130,17 @@ public class POJOFromJson {
 
 
 		try {
-			JSONObject j = contentJ.getJSONObject("assignee");
-			jiraDetail.setAssignee(getProjectUserFromJson(j));
+			Object aObj = contentJ.get("assignee");
+			if(aObj instanceof JSONObject){
+				JSONObject j = contentJ.getJSONObject("assignee");
+				jiraDetail.setAssignee(getProjectUserFromJson(j));
+			}
+			else {
+				jiraDetail.setAssignee(null);
+			}
 		}
 		catch(Exception e) {
-			jiraDetail.setAssignee(new JIRAProjectUser());
+			e.printStackTrace();
 		}
 		
 		return jiraDetail;

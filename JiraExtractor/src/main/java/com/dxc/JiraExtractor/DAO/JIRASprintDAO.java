@@ -31,10 +31,10 @@ public class JIRASprintDAO {
         }
     }
 
-    public ArrayList<JIRASprint> getAllSprint(Connection cnn)
+    public ArrayList<JIRASprint> getAllSprint(Connection cnn, String projectID)
     {
         ArrayList<JIRASprint> sprints = new ArrayList<>();
-        String sql = "select * from sprint";
+        String sql = "select * from sprint where project = "+projectID;
         try {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();

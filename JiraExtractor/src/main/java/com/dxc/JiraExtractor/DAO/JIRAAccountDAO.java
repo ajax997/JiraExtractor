@@ -38,7 +38,7 @@ public class JIRAAccountDAO {
         ArrayList<JIRAProjectUser> users = null;
         String selectSQL = "Select * from account";
         if(!userID.equals("*"))
-            selectSQL = "Select * from account where "+userID;
+            selectSQL = "Select * from account where accountId = "+userID;
 
         try {
             PreparedStatement p = cnn.prepareStatement(selectSQL);

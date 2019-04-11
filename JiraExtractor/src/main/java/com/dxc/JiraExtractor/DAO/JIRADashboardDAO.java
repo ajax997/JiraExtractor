@@ -39,6 +39,7 @@ public class JIRADashboardDAO {
                 jiraDashboard.setName(resultSet.getString("name"));
                 jiraDashboard.setId(String.valueOf(resultSet.getInt("idDashboard")));
                 jiraDashboard.setView(resultSet.getString("view"));
+                jiraDashboard.setUrl(resultSet.getString("self"));
                 dashboards.add(jiraDashboard);
             }
         } catch (Exception e) {

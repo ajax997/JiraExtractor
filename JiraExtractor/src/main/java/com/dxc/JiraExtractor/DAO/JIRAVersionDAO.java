@@ -32,10 +32,10 @@ public class JIRAVersionDAO {
         }
     }
 
-    public ArrayList<JIRAVersion> getAllVersion(Connection cnn)
+    public ArrayList<JIRAVersion> getAllVersion(Connection cnn, String projectID)
     {
         ArrayList<JIRAVersion> versions = new ArrayList<>();
-        String sql = "select * from version";
+        String sql = "select * from version where projectId = "+projectID;
         try{
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -50,6 +50,7 @@ public class JIRAVersionDAO {
                 version.setStartDate(resultSet.getString("startDate"));
                 version.setReleaseDate(resultSet.getString("releaseDate"));
                 version.setProjectId(Integer.parseInt(resultSet.getString("projectId")));
+                version.setSelf(resultSet.getString("self"));
                 versions.add(version);
             }
         }

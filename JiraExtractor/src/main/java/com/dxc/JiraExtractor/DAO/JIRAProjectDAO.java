@@ -45,11 +45,12 @@ public class JIRAProjectDAO {
             {
                 JIRAProject jiraProject = new JIRAProject();
                 jiraProject.setId(String.valueOf(resultSet.getInt("idProject")));
-                jiraProject.setKey(resultSet.getString("key"));
+                jiraProject.setKey(resultSet.getString("_key"));
                 jiraProject.setName(resultSet.getString("name"));
                 jiraProject.setAvatarUrl(resultSet.getString("avatarUrl"));
                 jiraProject.setProjectType(resultSet.getString("projectTypeKey"));
                 jiraProject.setPrivate(resultSet.getBoolean("isPrivate"));
+                jiraProject.setUrl(resultSet.getString("self"));
                 projects.add(jiraProject);
             }
         }

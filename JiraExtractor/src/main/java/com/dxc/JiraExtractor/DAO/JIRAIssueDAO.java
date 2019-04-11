@@ -18,8 +18,6 @@ public class JIRAIssueDAO {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(issueDetail.getId()));
 
-            System.out.println("ISSUE ID " + Integer.parseInt(issueDetail.getId()));
-
             preparedStatement.setString(2, issueDetail.getKey());
             preparedStatement.setString(3, issueDetail.getSummary());
             preparedStatement.setString(4, String.valueOf(issueDetail.getIssueType().getId()));
@@ -27,12 +25,15 @@ public class JIRAIssueDAO {
             preparedStatement.setString(5, null);
             preparedStatement.setString(6, issueDetail.getProject().getId());
             //TODO missing fixVersion
-            preparedStatement.setInt(7, -1);
-            preparedStatement.setString(8, issueDetail.getAssignee().getAccountId());
+            preparedStatement.setString(7, null);
+            if (issueDetail.getAssignee() != null)
+                preparedStatement.setString(8, issueDetail.getAssignee().getAccountId());
+            else
+                preparedStatement.setString(8, null);
             preparedStatement.setString(9, issueDetail.getCreator().getAccountId());
             preparedStatement.setString(10, issueDetail.getReporter().getAccountId());
             //TODO missing ici
-            preparedStatement.setString(11,null);
+            preparedStatement.setString(11, null);
             preparedStatement.setString(12, null);
 
             preparedStatement.execute();
@@ -43,9 +44,13 @@ public class JIRAIssueDAO {
         }
     }
 
-    public ArrayList<JIRAIssueDetail> getAllIssueDetail(Connection cnn) {
+    public ArrayList<JIRAIssueDetail> getAllIssueDetail(Connection cnn, int issueID) {
         ArrayList<JIRAIssueDetail> issueDetails = new ArrayList<>();
         String sql = "select * from issue";
+        if (issueID != -1)
+
+            sql = "select * from issue where idIssue = " + issueID;
+
         try {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -53,22 +58,31 @@ public class JIRAIssueDAO {
             while (resultSet.next()) {
                 JIRAIssueDetail jiraIssueDetail = new JIRAIssueDetail();
                 jiraIssueDetail.setId(String.valueOf(resultSet.getInt("idIssue")));
-                jiraIssueDetail.setKey(resultSet.getString("key"));
+                jiraIssueDetail.setKey(resultSet.getString("_key"));
                 jiraIssueDetail.setSummary(resultSet.getString("summary"));
 
                 jiraIssueDetail.setIssueType(new JIRAIssueTypeDAO().getAllIssueType(MYSQLDAOHelper
                         .getConnection(), resultSet.getInt("issuetype")).get(0));
 
-                jiraIssueDetail.setProject(new JIRAProjectDAO().getAllProject( MYSQLDAOHelper
+                jiraIssueDetail.setProject(new JIRAProjectDAO().getAllProject(MYSQLDAOHelper
                         .getConnection(), resultSet.getInt("project")).get(0));
 
-                jiraIssueDetail.setAssignee(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
-                        getConnection(), resultSet.getString("assignee")).get(0));
+                try {
+                    jiraIssueDetail.setAssignee(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
+                            getConnection(), resultSet.getString("assignee")).get(0));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
 
-                jiraIssueDetail.setAssignee(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
-                        getConnection(), resultSet.getString("creator")).get(0));
+                try {
+                    jiraIssueDetail.setCreator(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
+                            getConnection(), resultSet.getString("creator")).get(0));
+                }
+                catch (Exception e) {
+                    e.getMessage();
+                }
 
-                jiraIssueDetail.setAssignee(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
+                jiraIssueDetail.setReporter(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
                         getConnection(), resultSet.getString("reporter")).get(0));
 
             }
