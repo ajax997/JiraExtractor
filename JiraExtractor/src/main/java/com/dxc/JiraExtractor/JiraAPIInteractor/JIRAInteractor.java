@@ -34,7 +34,6 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 		JSONObject jsonResult = new JSONObject(resultString);
 		if (jsonResult.has("session")) {
 			ConfigStuffs.urlString = url;
-
 			return true;
 		} else {
 			return false;

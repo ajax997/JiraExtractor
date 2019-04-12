@@ -40,7 +40,6 @@ public class SendRequest {
 		}
 		
 		return "[]";
-		
 	}
 
 	public static String sendPOSTRequest(String url, JSONObject body) {

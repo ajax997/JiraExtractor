@@ -25,7 +25,6 @@ public class ManipulationDatabase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     public void addTables()

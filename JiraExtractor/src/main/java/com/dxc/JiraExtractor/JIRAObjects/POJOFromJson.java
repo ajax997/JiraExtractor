@@ -43,25 +43,33 @@ public class POJOFromJson {
 		JSONArray versionArray = json.getJSONArray("versions");
 		for (int i = 0; i < versionArray.length(); i++) {
 			JSONObject versionJ = versionArray.getJSONObject(i);
-			JIRAVersion version = new JIRAVersion();
-			version.setSelf(versionJ.getString("self"));
-			version.setId(versionJ.getString("id"));
-			version.setName(versionJ.getString("name"));
-			version.setProjectId(versionJ.getInt("projectId"));
-			try {
-				version.setStartDate(versionJ.getString("startDate"));
-				version.setReleaseDate(versionJ.getString("releaseDate"));
-				version.setDescription(versionJ.getString("description"));
-			} catch (Exception e) {
-				System.out.println("ISSUE " + versionJ.getString("id") + " have no description");
-			}
-			version.setArchived(versionJ.getBoolean("archived"));
-			version.setReleased(versionJ.getBoolean("released"));
+			JIRAVersion version = getVersionFromJson(versionJ);
 			listVersions.add(version);
 		}
 		projectDetail.setVersions(listVersions);
 
 		return projectDetail;
+	}
+
+	public JIRAVersion getVersionFromJson(JSONObject versionJ)
+	{
+		JIRAVersion version = new JIRAVersion();
+		version.setSelf(versionJ.getString("self"));
+		version.setId(versionJ.getString("id"));
+		version.setName(versionJ.getString("name"));
+		version.setProjectId(versionJ.getInt("projectId"));
+		try {
+			version.setStartDate(versionJ.getString("startDate"));
+			version.setReleaseDate(versionJ.getString("releaseDate"));
+			version.setDescription(versionJ.getString("description"));
+		} catch (Exception e) {
+			System.out.println("ISSUE " + versionJ.getString("id") + " have no description");
+		}
+		version.setArchived(versionJ.getBoolean("archived"));
+		version.setReleased(versionJ.getBoolean("released"));
+
+		return version;
+
 	}
 	
 	public JIRAIssueType getIssueTypeFromJson(JSONObject issueJ) {

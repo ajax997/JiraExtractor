@@ -38,7 +38,7 @@ public class JIRADashboardDAO {
                 JIRADashboard jiraDashboard = new JIRADashboard();
                 jiraDashboard.setName(resultSet.getString("name"));
                 jiraDashboard.setId(String.valueOf(resultSet.getInt("idDashboard")));
-                jiraDashboard.setView(resultSet.getString("view"));
+                jiraDashboard.setView(resultSet.getString("_view"));
                 jiraDashboard.setUrl(resultSet.getString("self"));
                 dashboards.add(jiraDashboard);
             }
