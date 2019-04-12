@@ -33,26 +33,26 @@ public class JIRAAccountDAO {
             e.printStackTrace();
         }
     }
-    public ArrayList<JIRAProjectUser> getAllUser(Connection cnn, String userID)
-    {
+    public ArrayList<JIRAProjectUser> getAllUser(Connection cnn, String userID) {
         ArrayList<JIRAProjectUser> users = null;
-        String selectSQL = "Select * from account";
-        if(!userID.equals("*"))
-            selectSQL = "Select * from account where accountId = "+userID;
+        PreparedStatement p = null;
+        String sql = "select * from account";
 
         try {
-            PreparedStatement p = cnn.prepareStatement(selectSQL);
+            p = cnn.prepareStatement(sql);
             users = new ArrayList<>();
             ResultSet resultSet = p.executeQuery();
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 JIRAProjectUser user = new JIRAProjectUser();
-                user.setAccountId(String.valueOf(resultSet.getInt("accountId")));
+                user.setAccountId((resultSet.getString("accountId")));
                 user.setName(resultSet.getString("name"));
                 user.setAvatarUrls(resultSet.getString("avatarUrl"));
                 user.setDisplayName("displayName");
                 user.setActive(resultSet.getBoolean("active"));
-                users.add(user);
+                if (userID.equals("*"))
+                    users.add(user);
+                else if (userID.equals(user.getAccountId()))
+                    users.add(user);
             }
 
         } catch (SQLException e) {

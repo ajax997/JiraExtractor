@@ -2,9 +2,7 @@ package com.dxc.JiraExtractor.DAO;
 
 import com.dxc.JiraExtractor.JIRAObjects.JIRADashboard;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -22,8 +20,10 @@ public class JIRADashboardDAO {
             preparedStatement.setString(4, dashboard.getUrl());
             preparedStatement.execute();
             System.out.println("INSERT COMPLETE!");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            if (e instanceof SQLIntegrityConstraintViolationException) {
+                System.out.println("CONFLICT");
+            }
         }
     }
 

@@ -92,4 +92,10 @@ public class RESTAPIController {
 		return new Gson().toJson(new JIRASprintDAO().getAllSprint(MYSQLDAOHelper.getConnection(), projectId));
 	}
 
+	@RequestMapping(value = "api/issuetype/{issuetypeID}")
+	public String getIssueTypeFromID(@PathVariable String issuetypeID)
+	{
+		return new Gson().toJson(new JIRAIssueTypeDAO().getAllIssueType(MYSQLDAOHelper.getConnection(), Integer.parseInt(issuetypeID)));
+	}
+
 }

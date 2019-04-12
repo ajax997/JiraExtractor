@@ -5,6 +5,7 @@ import com.dxc.JiraExtractor.JIRAObjects.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 /**
@@ -40,7 +41,10 @@ public class JIRAIssueDAO {
             System.out.println("INSERT COMPLETE!");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if(e instanceof SQLIntegrityConstraintViolationException)
+            {
+                System.out.println("COLLISION ISSUE");
+            }
         }
     }
 
@@ -74,17 +78,13 @@ public class JIRAIssueDAO {
                     System.out.println(e.getMessage());
                 }
 
-                try {
-                    jiraIssueDetail.setCreator(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
-                            getConnection(), resultSet.getString("creator")).get(0));
-                }
-                catch (Exception e) {
-                    e.getMessage();
-                }
+                jiraIssueDetail.setCreator(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
+                        getConnection(), resultSet.getString("creator")).get(0));
 
                 jiraIssueDetail.setReporter(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
                         getConnection(), resultSet.getString("reporter")).get(0));
 
+                issueDetails.add(jiraIssueDetail);
             }
 
         } catch (Exception e) {
@@ -93,5 +93,4 @@ public class JIRAIssueDAO {
 
         return issueDetails;
     }
-
 }

@@ -30,6 +30,7 @@ public class RedirectController {
 		JIRAInteractor interactor = new JIRAInteractor(url);
 		boolean loginR = interactor.login(user, password);
 		if (loginR) {
+            new ManipulationDatabase().dropTables();
             new ManipulationDatabase().addTables();
             return "Projects";
         }
@@ -107,7 +108,6 @@ public class RedirectController {
 	public String logout()
 	{
         new ManipulationDatabase().dropTables();
-
-        return "/";
+        return "login";
 	}
 }
