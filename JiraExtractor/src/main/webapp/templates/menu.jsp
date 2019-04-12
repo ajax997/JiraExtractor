@@ -3,13 +3,13 @@
         <li class="titleProject">
             <hr/>
             <h3 >JIRA-EXTRACT </h3>
-            <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
+            <a class="sidebar-toggle mr-3"><i class="fa fa-bars"></i></a>
             <hr/>
         </li>
-        <li><a href="#"><i class="fa fa-fw fa-tachometer-alt"></i> Dashboard</a></li>
+        <li ng-class="{'active': index == 0}"><a href="#!/" ng-click="index=0"><i class="fa fa-fw fa-tachometer-alt"></i> Dashboard</a></li>
 
-        <li class="active"><a href="#/icons"><i class="fa fa-fw fa-flag"></i> Projects</a></li>
-        <li><a href="#/docs"><i class="fa fa-fw fa-book"></i> Log out</a></li>
+        <li ng-class="{'active': index == 1}"><a href="#!/projects" ng-click="index=1"><i class="fa fa-fw fa-flag"></i> Projects</a></li>
+        <li><a href="/logout"><i class="fa fa-fw fa-book"></i> Log out</a></li>
     </ul>
 </div>
 

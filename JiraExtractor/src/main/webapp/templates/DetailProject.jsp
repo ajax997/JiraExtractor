@@ -8,11 +8,11 @@
 <div class="discription-project mb-4" >
 
     <h2>
-      <img class="avatar-project" src="https://jraproj.atlassian.net/secure/projectavatar?size=medium&avatarId=10324" width="60px" />
-        Project_Name 
-        <img class="avatar-user" src="https://avatar-cdn.atlassian.com/2494e026b8d7c07e4192f4096ba2cfb8?s=48&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F2494e026b8d7c07e4192f4096ba2cfb8%3Fd%3Dmm%26s%3D48%26noRedirect%3Dtrue" data-toggle="tooltip" data-placement="bottom" title="user-name"/>
+      <img class="avatar-project" src={{data.project.avatarUrl}} width="60px" />
+        {{data.project.name}}
+        <img class="avatar-user" src={{data.project.projectUser.avatarUrls}} data-toggle="tooltip" data-placement="bottom" title={{data.project.projectUser.displayName}}/>
     </h2>
-    <h6 class="ml-4 discription">create project extract data from jira programs</h6>
+    <h6 class="ml-4 discription">{{data.project.description}}</h6>
     <div class="card">
         <div class="card-header bg-white">
             <div class="row">
@@ -33,8 +33,7 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#">All</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Version02</a>
-                            <a class="dropdown-item" href="#">Version03</a>
+                            <a class="dropdown-item" href="#" >Version01</a>
                         </div>
                     </div>
                     <!-- EPIC dropdown -->
@@ -72,73 +71,42 @@
             </div>
         </div>
         <div class="card-body">
-            <!-- SPRINTs -->
-            <div class="row">
-                <div id="accordion-sprint1" class="mx-4">
+            <!-- =======================SPRINTs============================= -->
+            <div class="row" ng-repeat="sprint in data.sprints">
+                <div id={{"accordion-"+sprint.id}} class="sprint mx-4">
                     <div class="card card-parent">
                         <div class="card-header header-info p-0" id="sprint01">
-                            <button class="btn btn-link collapsed mb-0 btnCollapse" data-toggle="collapse" data-target="#heading" aria-expanded="false" aria-controls="heading">
-                                Sprint 01
+                            <button class="btn btn-link collapsed mb-0 btnCollapse" data-toggle="collapse" data-target={{"#heading"+sprint.id}} aria-expanded="false" aria-controls={{"heading"+sprint.id}}>
+                                {{sprint.name}}
                                 <i class="fas fa-plus iconPlus"></i>
                                 <i class="fas fa-minus iconMinus"></i>
                             </button>
-                            <p class="discription">26/thg 3/19 2:50 CH • 27/thg 3/19 2:50 CH</p>
+                            <p class="discription">N/A - n/a </p>
                         </div>
-                        <!-- Issues -->
-                        <div id="heading" class="collapse" aria-labelledby="sprint01" data-parent="#accordion-sprint1">
+                        <!-- Issues Sprint-->
+                        <div id={{"heading"+sprint.id}} class="collapse" aria-labelledby="sprint01" data-parent={{"#accordion-"+sprint.id}}>
                             <div class="card-body card-issue">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img class="mx-2" src="https://jraproj.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype" weight="30px" height="30px" />
-                                        <p class="my-auto"><a href="#!detail-issue">xinchao</a></p>
+                                <!--row issue-->
+                                <div class="card" ng-repeat="issue in sprint.issues">
+                                    
+                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version="" issue-epic=""></issue-direct>
+                                    
+                                    <!--<div class="card-body">
+                                        <img class="mx-2" src={{issue.issueType.iconUrl}} weight="30px" height="30px" />
+                                        <p class="my-auto" width="100%"><a href={{"#!detail-issue/"+issue.id}}>{{issue.key}}</a></p>
                                         <div class="issue-badge">
                                             <span class="badge badge-secondary">Version01</span>
                                             <span class="badge badge-primary">Epic01</span>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
 
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="accordion-sprint2" class="mx-4">
-                    <div class="card card-parent">
-                        <div class="card-header header-info p-0" id="sprint02">
-                            <button class="btn btn-link collapsed mb-0 btnCollapse" data-toggle="collapse" data-target="#heading1" aria-expanded="false" aria-controls="heading1">
-                                Sprint 02
-                                <i class="fas fa-plus iconPlus"></i>
-                                <i class="fas fa-minus iconMinus"></i>
-                            </button>
-                            <p class="discription">26/thg 3/19 2:50 CH • 27/thg 3/19 2:50 CH</p>
-                        </div>
-                        <!-- Issues -->
-                        <div id="heading1" class="collapse" aria-labelledby="sprint02" data-parent="#accordion-sprint2">
-                            <div class="card-body card-issue">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img class="mx-2" src="https://jraproj.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype" weight="30px" height="30px" />
-                                        <p class="my-auto"><a href="#!detail-issue">xinchao</a></p>
-                                        <div class="issue-badge">
-                                            <span class="badge badge-secondary">Version01</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img class="mx-2" src="https://jraproj.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype" weight="30px" height="30px" />
-                                        <p class="my-auto"><a href="#!detail-issue">xinchao</a></p>
-                                        <div class="issue-badge">
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>  
-            <!-- BACKLOG -->
+            </div>  <!--end Sprints-->
+            <!-- =======================BACKLOG========================== -->
             <div class="row">
                 <div id="accordion1" class="mx-4">
                     <div class="card card-parent">
@@ -147,42 +115,19 @@
                                 BACKLOG
                             </button>
                         </div>
-                        <!-- Issues -->
+                        <!-- Issues Backlog-->
                         <div id="heading2" class="collapse show" aria-labelledby="backlog" data-parent="#accordion1">
                             <div class="card-body card-issue">
+                                <!--row issue-->
                                 <div class="card">
-                                    <div class="card-body">
-                                        <img class="mx-2" src="https://jraproj.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype" weight="30px" height="30px" />
-                                        <p class="my-auto"><a href="#!detail-issue">hello</a></p>
-                                        <div class="issue-badge">
-                                            <span class="badge badge-primary">Epic01</span>
-                                        </div>
-                                    </div>
+                                    <!--<issue-direct issue-type="" issue-id="" issue-key="" issue-version="" issue-epic=""></issue-direct>-->
                                 </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img class="mx-2" src="https://jraproj.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype" weight="30px" height="30px" />
-                                        <p class="my-auto"><a href="#!detail-issue">hey</a></p>
-                                        <div class="issue-badge">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img class="mx-2" src="https://jraproj.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype" weight="30px" height="30px" />
-                                        <p class="my-auto"><a href="#!detail-issue">xinchao</a></p>
-                                        <div class="issue-badge">
-                                            <span class="badge badge-secondary">Version01</span>
-                                            <span class="badge badge-primary">Epic01</span>
-                                        </div>
-
-                                    </div>
-                                </div>
+                                <!--=.=-->
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div> <!--end Backlog-->
         </div>
     </div>
 </div>
