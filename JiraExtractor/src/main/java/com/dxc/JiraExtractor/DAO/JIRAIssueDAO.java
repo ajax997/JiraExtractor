@@ -2,10 +2,7 @@ package com.dxc.JiraExtractor.DAO;
 
 import com.dxc.JiraExtractor.JIRAObjects.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -41,8 +38,7 @@ public class JIRAIssueDAO {
             System.out.println("INSERT COMPLETE!");
 
         } catch (Exception e) {
-            if(e instanceof SQLIntegrityConstraintViolationException)
-            {
+            if (e instanceof SQLIntegrityConstraintViolationException) {
                 System.out.println("COLLISION ISSUE");
             }
         }
@@ -56,41 +52,59 @@ public class JIRAIssueDAO {
             sql = "select * from issue where idIssue = " + issueID;
 
         try {
-            PreparedStatement preparedStatement = cnn.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                JIRAIssueDetail jiraIssueDetail = new JIRAIssueDetail();
-                jiraIssueDetail.setId(String.valueOf(resultSet.getInt("idIssue")));
-                jiraIssueDetail.setKey(resultSet.getString("_key"));
-                jiraIssueDetail.setSummary(resultSet.getString("summary"));
-
-                jiraIssueDetail.setIssueType(new JIRAIssueTypeDAO().getAllIssueType(MYSQLDAOHelper
-                        .getConnection(), resultSet.getInt("issuetype")).get(0));
-
-                jiraIssueDetail.setProject(new JIRAProjectDAO().getAllProject(MYSQLDAOHelper
-                        .getConnection(), resultSet.getInt("project")).get(0));
-
-                try {
-                    jiraIssueDetail.setAssignee(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
-                            getConnection(), resultSet.getString("assignee")).get(0));
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-
-                jiraIssueDetail.setCreator(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
-                        getConnection(), resultSet.getString("creator")).get(0));
-
-                jiraIssueDetail.setReporter(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
-                        getConnection(), resultSet.getString("reporter")).get(0));
-
-                issueDetails.add(jiraIssueDetail);
-            }
+            toIssueDetails(cnn, issueDetails, sql);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return issueDetails;
+    }
+
+    public ArrayList<JIRAIssueDetail> getAllIssueByProjectID(Connection cnn, int projectID) {
+        ArrayList<JIRAIssueDetail> issueDetails = new ArrayList<>();
+
+
+        String sql = "select * from project, issue where project=" + projectID;
+        try {
+            toIssueDetails(cnn, issueDetails, sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return issueDetails;
+    }
+
+    private void toIssueDetails(Connection cnn, ArrayList<JIRAIssueDetail> issueDetails, String sql) throws SQLException {
+        PreparedStatement p = cnn.prepareStatement(sql);
+        ResultSet resultSet = p.executeQuery();
+
+        while (resultSet.next()) {
+            JIRAIssueDetail jiraIssueDetail = new JIRAIssueDetail();
+            jiraIssueDetail.setId(String.valueOf(resultSet.getInt("idIssue")));
+            jiraIssueDetail.setKey(resultSet.getString("_key"));
+            jiraIssueDetail.setSummary(resultSet.getString("summary"));
+
+            jiraIssueDetail.setIssueType(new JIRAIssueTypeDAO().getAllIssueType(MYSQLDAOHelper
+                    .getConnection(), resultSet.getInt("issuetype")).get(0));
+
+            jiraIssueDetail.setProject(new JIRAProjectDAO().getAllProject(MYSQLDAOHelper
+                    .getConnection(), resultSet.getInt("project")).get(0));
+
+            try {
+                jiraIssueDetail.setAssignee(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
+                        getConnection(), resultSet.getString("assignee")).get(0));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            jiraIssueDetail.setCreator(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
+                    getConnection(), resultSet.getString("creator")).get(0));
+
+            jiraIssueDetail.setReporter(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
+                    getConnection(), resultSet.getString("reporter")).get(0));
+
+            issueDetails.add(jiraIssueDetail);
+
+        }
     }
 }

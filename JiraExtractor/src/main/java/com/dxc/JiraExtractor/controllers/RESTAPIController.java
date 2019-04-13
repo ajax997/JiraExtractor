@@ -55,6 +55,13 @@ public class RESTAPIController {
 		return new Gson().toJson(new JIRASprintDAO().getAllSprint(MYSQLDAOHelper.getConnection(), projectId));
 	}
 
+	@RequestMapping(value = "/api/{projectId}/issue")
+	public String getIssueFromProjectID(@PathVariable String projectId)
+	{
+		return new Gson().toJson(new JIRAIssueDAO().getAllIssueByProjectID(MYSQLDAOHelper.getConnection(), Integer.parseInt(projectId)));
+	}
+
+
 	@RequestMapping(value = "/api/dashboards")
 	public String getDashboard()
 	{
