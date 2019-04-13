@@ -12,6 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by nguyennghi on 2019-04-06 22:12
  */
+
 public class JIRAProjectDetailDAO {
     public void addProjectDetail(Connection cnn, JIRAProjectDetail projectDetail) {
         String sql = "insert into projectdetail (idProject, description, `lead`) values (?, ?, ?) ";

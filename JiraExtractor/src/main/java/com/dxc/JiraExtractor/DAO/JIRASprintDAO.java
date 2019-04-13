@@ -31,15 +31,13 @@ public class JIRASprintDAO {
         }
     }
 
-    public ArrayList<JIRASprint> getAllSprint(Connection cnn, String projectID)
-    {
+    public ArrayList<JIRASprint> getAllSprint(Connection cnn, String projectID) {
         ArrayList<JIRASprint> sprints = new ArrayList<>();
-        String sql = "select * from sprint where project = "+projectID;
+        String sql = "select * from sprint where project = " + projectID;
         try {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 JIRASprint sprint = new JIRASprint();
                 sprint.setId(resultSet.getInt("idSprint"));
                 sprint.setName(resultSet.getString("name"));
@@ -49,9 +47,7 @@ public class JIRASprintDAO {
                 sprint.setProjectID(resultSet.getInt("project"));
                 sprints.add(sprint);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return sprints;

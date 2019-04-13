@@ -10,6 +10,31 @@ public class JIRAIssueDetail {
 	private JIRAProjectUser assignee;
 	private String time;
 	private String summary;
+
+	private String fixVersions;
+
+	private String parentID;
+
+	public String getParentID() {
+		return parentID;
+	}
+
+	public void setParentID(String parentID) {
+		this.parentID = parentID;
+	}
+
+	public String getSprintID() {
+		return sprintID;
+	}
+
+	public void setSprintID(String sprintID) {
+		this.sprintID = sprintID;
+	}
+
+	private String sprintID;
+
+	private String self;
+
 	public String getId() {
 		return id;
 	}
@@ -19,6 +44,10 @@ public class JIRAIssueDetail {
 	public String getKey() {
 		return key;
 	}
+	public String getSelf() {
+		return self;
+	}
+
 	public void setKey(String key) {
 		this.key = key;
 	}
@@ -63,5 +92,17 @@ public class JIRAIssueDetail {
 	}
 	public void setSummary(String summary) {
 		this.summary = summary;
-	} 
+	}
+
+	public void setSelf(String self) {
+		this.self = self;
+	}
+
+	public String getFixVersions() {
+		return fixVersions;
+	}
+
+	public void setFixVersions(String fixVersions) {
+		this.fixVersions = fixVersions;
+	}
 }

@@ -20,19 +20,34 @@ public class JIRAIssueDAO {
             preparedStatement.setString(3, issueDetail.getSummary());
             preparedStatement.setString(4, String.valueOf(issueDetail.getIssueType().getId()));
             //TODO missing ici
-            preparedStatement.setString(5, null);
+            try {
+                preparedStatement.setString(5, issueDetail.getParentID());
+            } catch (Exception e) {
+                preparedStatement.setString(5, null);
+            }
             preparedStatement.setString(6, issueDetail.getProject().getId());
             //TODO missing fixVersion
-            preparedStatement.setString(7, null);
+            try {
+                preparedStatement.setString(7, issueDetail.getFixVersions());
+            } catch (Exception e) {
+                preparedStatement.setString(7, null);
+            }
+
             if (issueDetail.getAssignee() != null)
                 preparedStatement.setString(8, issueDetail.getAssignee().getAccountId());
             else
                 preparedStatement.setString(8, null);
+
             preparedStatement.setString(9, issueDetail.getCreator().getAccountId());
             preparedStatement.setString(10, issueDetail.getReporter().getAccountId());
             //TODO missing ici
-            preparedStatement.setString(11, null);
-            preparedStatement.setString(12, null);
+            try {
+                preparedStatement.setString(11, issueDetail.getSprintID());
+            } catch (Exception e) {
+                preparedStatement.setString(11, null);
+            }
+
+            preparedStatement.setString(12, issueDetail.getSelf());
 
             preparedStatement.execute();
             System.out.println("INSERT COMPLETE!");

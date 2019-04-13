@@ -1,8 +1,12 @@
 package com.dxc.JiraExtractor;
 
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.dxc.JiraExtractor.DAO.ManipulationDatabase;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Test {
 	public static void main(String[] args) throws SQLException {
@@ -17,6 +21,27 @@ public class Test {
 //			version.setArchived(versionJ.getBoolean("archived"));
 //			version.setReleased(versionJ.getBoolean("released"));
 //		}
-		new ManipulationDatabase().addTables();
+
+//		String s = "{\"customfield_10021\": [\n" +
+//				"            \"com.atlassian.greenhopper.service.sprint.Sprint@438b711e[id=2,rapidViewId=1,state=ACTIVE,name=DFP Sprint 2,goal=,startDate=2019-04-09T15:35:03.136Z,endDate=2019-04-11T20:35:00.000Z,completeDate=<null>,sequence=2]\"\n" +
+//				"        ]}";
+//		JSONObject jsonObject = new JSONObject(s);
+//		Object e = (jsonObject.get("customfield_10021"));
+//		if (e.getClass().getName().equals("org.json.JSONArray"))
+//		{
+//			String key = "customfield_10021";
+//			JSONArray j = jsonObject.getJSONArray(key);
+//			System.out.println(j.get(0));
+//		}
+
+
+		String f = "com.atlassian.greenhopper.service.sprint.Sprint@558c9d3e[id=2,rapidViewId=1,state=ACTIVE,name=DFP Sprint 2,goal=,startDate=2019-04-09T15:35:03.136Z,endDate=2019-04-11T20:35:00.000Z,completeDate=<null>,sequence=2]\n";
+		Pattern p = Pattern.compile("(id=\\d+)");
+		Matcher m = p.matcher(f);
+		while (m.find()) {
+			String x = (m.group(0));
+			System.out.println(x.substring(3));
+		}
+
 	}
 }

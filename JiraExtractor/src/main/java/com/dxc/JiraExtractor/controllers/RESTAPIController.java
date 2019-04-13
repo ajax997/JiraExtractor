@@ -1,21 +1,13 @@
 package com.dxc.JiraExtractor.controllers;
 
-import java.util.ArrayList;
-
-import ch.qos.logback.core.db.dialect.MySQLDialect;
+import com.dxc.JiraExtractor.ConfigStuffs;
 import com.dxc.JiraExtractor.DAO.*;
-import com.dxc.JiraExtractor.JIRAObjects.*;
-import com.google.gson.JsonArray;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.dxc.JiraExtractor.JiraAPIInteractor.JIRAInteractor;
+import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.dxc.JiraExtractor.ConfigStuffs;
-import com.dxc.JiraExtractor.JiraAPIInteractor.JIRAInteractor;
-import com.google.gson.Gson;
 
 @RestController
 public class RESTAPIController {
