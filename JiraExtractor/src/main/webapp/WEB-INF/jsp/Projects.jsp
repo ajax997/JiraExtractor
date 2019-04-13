@@ -15,7 +15,7 @@
         var app=angular.module('myapp',['ngRoute']);
         app.config(function($routeProvider){
             $routeProvider.when('/', {
-               templateUrl: "templates/dashboard.jsp"
+               templateUrl: "templates/Dashboard.jsp"
             }).when('/projects', {
                templateUrl: "templates/ProjectList.jsp",
                controller: 'issueCtr' 

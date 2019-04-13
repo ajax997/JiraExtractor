@@ -63,10 +63,12 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
+                    <!--=====Project-->
                     <div class="mb-2">
                         <p class="title-info m-0">Project:</p>
                         <img class="ml-4" src={{data.issue.project.avatarUrl}} width="20px" /> {{data.issue.project.name}}
                     </div>
+                    <!--=====Subtask-->
                     <div id="accordion1" class="my-0">
                         <div class="card card-parent">
                             <div class="card-header  p-0" id="backlog">

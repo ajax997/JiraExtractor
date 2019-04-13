@@ -31,9 +31,10 @@
                             VERSION
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">All</a>
+                            <a class="dropdown-item" ng-click="versionFunction(-1)">All</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" >Version01</a>
+                            <a class="dropdown-item" ng-click="versionFunction(1)">Version01</a>
+                            <a class="dropdown-item" ng-click="versionFunction(2)">Version01</a>
                         </div>
                     </div>
                     <!-- EPIC dropdown -->
@@ -42,10 +43,10 @@
                             EPIC
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">All</a>
+                            <a class="dropdown-item" ng-click="epicFunction(-1)">All</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Epic01</a>
-                            <a class="dropdown-item" href="#">Epic02</a>
+                            <a class="dropdown-item" ng-click="epicFunction(1)">Epic01</a>
+                            <a class="dropdown-item" ng-click="epicFunction(2)">Epic02</a>
                         </div>
                     </div>
                 </div>
@@ -53,16 +54,16 @@
             <!-- Content Version and Epic -->
             <div class="row">
                 <div class="card-deck mx-auto">
-                    <div class="card bg-light col-sm-6">
+                    <div class="card bg-light col-sm-6" ng-show="modelVersion">
                         <div class="card-body p-2">
-                            <button type="button" class="close">&times;</button>
+                            <button type="button" class="close" ng-click="versionFunction(-1)">&times;</button>
                             <h5 class="card-title">Version01</h5>
-                            <p class="card-text ml-4 discription">release login function<br/>26/thg 3/19 2:50 CH • 27/thg 3/19 2:50 CH</p>
+                            <p class="card-text ml-4 discription">release login function<br/>26/thg 3/19 2:50 CH - 27/thg 3/19 2:50 CH</p>
                         </div>
                     </div>
-                    <div class="card bg-light col-sm-6">
+                    <div class="card bg-light col-sm-6" ng-show="modelEpic">
                         <div class="card-body p-2">
-                            <button type="button" class="close">&times;</button>
+                            <button type="button" class="close" ng-click="epicFunction(-1)">&times;</button>
                             <h5 class="card-title">Epic01</h5>
                             <p class="card-text ml-4 discription">include tasks to complete login function</p>
                         </div>
