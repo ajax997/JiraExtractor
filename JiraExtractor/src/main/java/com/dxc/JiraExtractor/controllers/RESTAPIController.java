@@ -88,7 +88,7 @@ public class RESTAPIController {
     @RequestMapping(value = "/api/{projectId}/versions")
 	public String getVersion(@PathVariable String projectId)
 	{
-		return new Gson().toJson(new JIRASprintDAO().getAllSprint(MYSQLDAOHelper.getConnection(), projectId));
+		return new Gson().toJson(new JIRAVersionDAO().getAllVersion(MYSQLDAOHelper.getConnection(), projectId));
 	}
 
 	@RequestMapping(value = "api/issuetype/{issuetypeID}")

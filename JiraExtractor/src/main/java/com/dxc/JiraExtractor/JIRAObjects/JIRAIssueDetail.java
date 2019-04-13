@@ -12,7 +12,6 @@ public class JIRAIssueDetail {
 	private String summary;
 
 	private String fixVersions;
-
 	private String parentID;
 
 	public String getParentID() {

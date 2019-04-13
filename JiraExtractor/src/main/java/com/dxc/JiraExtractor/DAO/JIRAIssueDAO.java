@@ -80,7 +80,7 @@ public class JIRAIssueDAO {
         ArrayList<JIRAIssueDetail> issueDetails = new ArrayList<>();
 
 
-        String sql = "select  * from project, issue where project=" + projectID;
+        String sql = "select  * from issue where project=" + projectID;
         try {
             toIssueDetails(cnn, issueDetails, sql);
         } catch (Exception e) {
@@ -127,6 +127,18 @@ public class JIRAIssueDAO {
 
             jiraIssueDetail.setReporter(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
                     getConnection(), resultSet.getString("reporter")).get(0));
+
+            try {
+                jiraIssueDetail.setSprintID(String.valueOf(resultSet.getInt("sprint")));
+            } catch (Exception e) {
+                e.getMessage();
+            }
+
+            try {
+                jiraIssueDetail.setFixVersions(String.valueOf(resultSet.getInt("fixVersions")));
+            } catch (Exception e) {
+                e.getMessage();
+            }
 
 
             if (!checkContain(issueDetails, jiraIssueDetail)) {

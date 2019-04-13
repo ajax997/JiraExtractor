@@ -40,7 +40,7 @@ public class JIRAProjectDetailDAO {
                 projectDetail.setId(String.valueOf(resultSet.getInt("idProject")));
                 projectDetail.setDescription(resultSet.getString("description"));
                 //TODO
-
+                projects.add(projectDetail);
             }
 
         } catch (Exception e) {
