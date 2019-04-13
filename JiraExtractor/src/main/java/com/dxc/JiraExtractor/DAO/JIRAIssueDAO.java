@@ -80,13 +80,23 @@ public class JIRAIssueDAO {
         ArrayList<JIRAIssueDetail> issueDetails = new ArrayList<>();
 
 
-        String sql = "select * from project, issue where project=" + projectID;
+        String sql = "select  * from project, issue where project=" + projectID;
         try {
             toIssueDetails(cnn, issueDetails, sql);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return issueDetails;
+    }
+
+    private boolean checkContain(ArrayList<JIRAIssueDetail> arrayList, JIRAIssueDetail issueDetail) {
+        for (JIRAIssueDetail d : arrayList) {
+            if (d.getId().equals(issueDetail.getId()))
+                return true;
+
+
+        }
+        return false;
     }
 
     private void toIssueDetails(Connection cnn, ArrayList<JIRAIssueDetail> issueDetails, String sql) throws SQLException {
@@ -118,7 +128,10 @@ public class JIRAIssueDAO {
             jiraIssueDetail.setReporter(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
                     getConnection(), resultSet.getString("reporter")).get(0));
 
-            issueDetails.add(jiraIssueDetail);
+
+            if (!checkContain(issueDetails, jiraIssueDetail)) {
+                issueDetails.add(jiraIssueDetail);
+            }
 
         }
     }
