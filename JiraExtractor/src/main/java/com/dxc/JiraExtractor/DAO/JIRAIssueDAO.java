@@ -135,7 +135,8 @@ public class JIRAIssueDAO {
             }
 
             try {
-                jiraIssueDetail.setFixVersions(String.valueOf(resultSet.getInt("fixVersions")));
+                jiraIssueDetail.setVersion(new JIRAVersionDAO().getVersionById(MYSQLDAOHelper.
+                        getConnection(), String.valueOf(resultSet.getInt("fixVersions"))));
             } catch (Exception e) {
                 e.getMessage();
             }

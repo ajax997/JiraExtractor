@@ -17,14 +17,6 @@
         <div class="card-header bg-white">
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-4">
-                    <!-- Actual SEARCH box -->
-                    <div class="form-group has-search">
-                        <span class=" form-control-feedback"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search" ng-model="searchText.name">
-                    </div>
-
-                </div>
-                <div class="col-lg-4 col-lg-offset-4">
                     <!-- VERSION dropdown -->
                     <div class="btn-group">
                         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,11 +61,8 @@
                         <div id={{"heading"+sprint.id}} class="collapse show" aria-labelledby="sprint01" data-parent={{"#accordion-"+sprint.id}}>
                             <div class="card-body card-issue">
                                 <!--row issue-->
-                                <div class="card" ng-repeat="issue in data.issues" ng-if="!issue.issueType.subtask && issue.sprintID == sprint.id" ng-init="versionName = ''">
-                                     <div ng-repeat="ver in data.version" ng-if="ver.id === issue.fixVersions" ng-init="versionName = ver.name">
-                                       <div style="visibility: hidden;">{{versionName = ver.name}}</div>
-                                    </div>
-                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version={{versionName}}></issue-direct>
+                                <div class="card" ng-repeat="issue in data.issues" ng-if="!issue.issueType.subtask && issue.sprintID == sprint.id">
+                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version={{issue.version.name}}></issue-direct>
                                     
                                     
                                     <!--<div ng-click="getVersion(issue.fixVersions)"></div>
@@ -97,9 +86,8 @@
                         <div id="heading2" class="collapse show" aria-labelledby="backlog" data-parent="#accordion1">
                             <div class="card-body card-issue">
                                 <!--row issue-->
-                                <div class="card" ng-repeat="issue in data.issues" ng-if="!issue.issueType.subtask && issue.sprintID ==  '0'" ng-init="versionName=''">
-                                    <div ng-repeat="ver in data.version" ng-if="ver.id === issue.fixVersions" ng-init="versionName=ver.name"></div>
-                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version={{versionName}}></issue-direct>
+                                <div class="card" ng-repeat="issue in data.issues" ng-if="!issue.issueType.subtask && issue.sprintID ==  '0'">
+                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version={{issue.version.name}}></issue-direct>
                                 </div>
                                 <!--=.=-->
                             </div>

@@ -1,7 +1,7 @@
 app.controller('detailCtr', function($scope, $http, $routeParams, $q){  
 	$scope.data={};
 	$scope.displayVersion={};
-	$scope.versionName = "";
+	$scope.version={};
     console.log($routeParams.idProject);
 	/* Get api json of project by id project" */
     $http.get('/api/project/'+ $routeParams.idProject).then(
@@ -26,29 +26,38 @@ app.controller('detailCtr', function($scope, $http, $routeParams, $q){
     );
     
     /* Get api json of project by id project" */
-    $http.get('/api/'+ $routeParams.idProject+'/issue').then(
+    /*$http.get('/api/'+ $routeParams.idProject+'/issue').then(
         function(data){
-            $scope.data.issues = data.data;
-            console.log($scope.data.issues);
-            for(var i=0 ; i < data.data.length ; i++){
-            	console.log($scope.data.issues[i].id);
-            	if($scope.data.issues[i].fixVersions !== "0"){
-            		$scope.data.issues[i].ver ={};
-            		$http.get('/api/versions/'+$scope.data.issues[i].fixVersions).then(
-                        function(data){
-                        	$scope.data.issues[i].ver = data.data ;
-                        	
-                        },
-                        function(error){
-                        	console.log(error);
-                        }
-                    );
-            	}
-            }
-            console.log($scope.data.issues);
+           $scope.data.issues = data.data;
+           console.log($scope.data.issues);
         },
         function(error){
         	console.log(error);
+        }
+    );*/
+
+    let promise = new Promise((resolve, reject) => {
+        $http({
+            method: 'GET',
+            url: '/api/'+ $routeParams.idProject+'/issue'
+        }).then(
+            value => {
+                resolve(value);
+            },
+            reason => {
+                reject(reason);
+            }
+        );
+    });
+    
+    promise.then(
+        value => {
+            $scope.data.issues = value.data;
+            $scope.$apply();
+        },
+        reason => {
+            $scope.data.error = reason;
+            $scope.$apply();
         }
     );
     
@@ -89,5 +98,18 @@ app.controller('detailCtr', function($scope, $http, $routeParams, $q){
             }
         );
     }*/
+		    /* for(var i=0 ; i < $scope.data.issues.length ; i++){
+			if($scope.data.issues[i].fixVersions === "0"){
+				$scope.version[i]={"issue":$scope.data.issues[i],"ver":""};
+			}
+			else{
+				$http.get('/api/versions/'+$scope.data.issues[i].fixVersions).then(function(data1){
+		        	$scope.version[i]={"issue":$scope.data.issues[i],"ver":data1.data};
+		        },function(error){
+		        	console.log(error);
+		        });
+			}
+		}
+		console.log($scope.version);*/
     
 });
