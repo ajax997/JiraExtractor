@@ -139,6 +139,12 @@ public class JIRAIssueDAO {
             } catch (Exception e) {
                 e.getMessage();
             }
+            
+            try {
+                jiraIssueDetail.setParentID(String.valueOf(resultSet.getInt("parent")));
+            } catch (Exception e) {
+                e.getMessage();
+            }
 
 
             if (!checkContain(issueDetails, jiraIssueDetail)) {

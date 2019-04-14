@@ -7,8 +7,7 @@ app.directive("issueDirect", function(){
         	issueType: '@',
         	issueId: '@',
         	issueKey: '@',
-        	issueVersion: '@',
-        	issueEpic: '@'
+        	issueVersion: '@'
         }
     }
 });

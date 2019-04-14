@@ -40,11 +40,17 @@ public class RESTAPIController {
 		
 	}
 	@RequestMapping(value = "/api/{projectId}/sprints")
-	public String getSprint(@PathVariable String projectId)
+	public String getAllSprint(@PathVariable String projectId)
 	{
 //		//TODO
 //		return new Gson().toJson(new JIRAInteractor(ConfigStuffs.urlString).getSprintsFromProjectID(projectId));
 		return new Gson().toJson(new JIRASprintDAO().getAllSprint(MYSQLDAOHelper.getConnection(), projectId));
+	}
+	
+	@RequestMapping(value = "/api/sprint/{sprintId}")
+	public String getSprintById(@PathVariable String sprintId)
+	{
+		return new Gson().toJson(new JIRASprintDAO().getSprintById(MYSQLDAOHelper.getConnection(), sprintId));
 	}
 
 	@RequestMapping(value = "/api/{projectId}/issue")
@@ -86,10 +92,16 @@ public class RESTAPIController {
 	}
 
     @RequestMapping(value = "/api/{projectId}/versions")
-	public String getVersion(@PathVariable String projectId)
+	public String getAllVersion(@PathVariable String projectId)
 	{
 		return new Gson().toJson(new JIRAVersionDAO().getAllVersion(MYSQLDAOHelper.getConnection(), projectId));
 	}
+    
+    @RequestMapping(value = "/api/versions/{versionId}")
+   	public String getVersionById(@PathVariable String versionId)
+   	{
+   		return new Gson().toJson(new JIRAVersionDAO().getVersionById(MYSQLDAOHelper.getConnection(), versionId));
+   	}
 
 	@RequestMapping(value = "api/issuetype/{issuetypeID}")
 	public String getIssueTypeFromID(@PathVariable String issuetypeID)

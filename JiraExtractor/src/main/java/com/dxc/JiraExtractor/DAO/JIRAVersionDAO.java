@@ -61,4 +61,32 @@ public class JIRAVersionDAO {
 
         return versions;
     }
+    
+    public JIRAVersion getVersionById(Connection cnn, String versionID)
+    {
+        JIRAVersion version = new JIRAVersion();
+        String sql = "select * from version where idVersion = "+versionID;
+        try{
+            PreparedStatement preparedStatement = cnn.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+                version.setId(String.valueOf(resultSet.getInt("idVersion")));
+                version.setDescription(resultSet.getString("description"));
+                version.setName(resultSet.getString("name"));
+                version.setArchived(resultSet.getBoolean("archived"));
+                version.setReleased(resultSet.getBoolean("released"));
+                version.setStartDate(resultSet.getString("startDate"));
+                version.setReleaseDate(resultSet.getString("releaseDate"));
+                version.setProjectId(Integer.parseInt(resultSet.getString("projectId")));
+                version.setSelf(resultSet.getString("self"));
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return version;
+    }
 }

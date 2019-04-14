@@ -8,11 +8,11 @@
 <div class="discription-project mb-4" >
 
     <h2>
-      <img class="avatar-project" src={{data.project.avatarUrl}} width="60px" />
-        {{data.project.name}}
-        <img class="avatar-user" src={{data.project.projectUser.avatarUrls}} data-toggle="tooltip" data-placement="bottom" title={{data.project.projectUser.displayName}}/>
+      <img class="avatar-project" src={{data.project[0].avatarUrl}} width="60px" />
+        {{data.project[0].name}}
+        <!--<img class="avatar-user" src={{data.project[0].projectUser.avatarUrls}} data-toggle="tooltip" data-placement="bottom" title={{data.project[0].projectUser.displayName}}/>-->
     </h2>
-    <h6 class="ml-4 discription">{{data.project.description}}</h6>
+    <h6 class="ml-4 discription">{{data.project[0].description}}</h6>
     <div class="card">
         <div class="card-header bg-white">
             <div class="row">
@@ -33,22 +33,10 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" ng-click="versionFunction(-1)">All</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" ng-click="versionFunction(1)">Version01</a>
-                            <a class="dropdown-item" ng-click="versionFunction(2)">Version01</a>
+                            <a class="dropdown-item" ng-repeat="ver in data.version" ng-click="versionFunction(ver)">{{ver.name}}</a>
                         </div>
                     </div>
-                    <!-- EPIC dropdown -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            EPIC
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" ng-click="epicFunction(-1)">All</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" ng-click="epicFunction(1)">Epic01</a>
-                            <a class="dropdown-item" ng-click="epicFunction(2)">Epic02</a>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
             <!-- Content Version and Epic -->
@@ -57,15 +45,8 @@
                     <div class="card bg-light col-sm-6" ng-show="modelVersion">
                         <div class="card-body p-2">
                             <button type="button" class="close" ng-click="versionFunction(-1)">&times;</button>
-                            <h5 class="card-title">Version01</h5>
-                            <p class="card-text ml-4 discription">release login function<br/>26/thg 3/19 2:50 CH - 27/thg 3/19 2:50 CH</p>
-                        </div>
-                    </div>
-                    <div class="card bg-light col-sm-6" ng-show="modelEpic">
-                        <div class="card-body p-2">
-                            <button type="button" class="close" ng-click="epicFunction(-1)">&times;</button>
-                            <h5 class="card-title">Epic01</h5>
-                            <p class="card-text ml-4 discription">include tasks to complete login function</p>
+                            <h5 class="card-title">{{displayVersion.name}}</h5>
+                            <p class="card-text ml-4 discription">{{displayVersion.description}}<br/>{{displayVersion.startDate +' - '+ displayVersion.releaseDate}}</p>
                         </div>
                     </div>
                 </div>
@@ -82,26 +63,22 @@
                                 <i class="fas fa-plus iconPlus"></i>
                                 <i class="fas fa-minus iconMinus"></i>
                             </button>
-                            <p class="discription">N/A - n/a </p>
+                            <p class="discription">{{sprint.startDate+ " - "+ sprint.endDate}} </p>
                         </div>
                         <!-- Issues Sprint-->
-                        <div id={{"heading"+sprint.id}} class="collapse" aria-labelledby="sprint01" data-parent={{"#accordion-"+sprint.id}}>
+                        <div id={{"heading"+sprint.id}} class="collapse show" aria-labelledby="sprint01" data-parent={{"#accordion-"+sprint.id}}>
                             <div class="card-body card-issue">
                                 <!--row issue-->
-                                <div class="card" ng-repeat="issue in sprint.issues">
+                                <div class="card" ng-repeat="issue in data.issues" ng-if="!issue.issueType.subtask && issue.sprintID == sprint.id" ng-init="versionName = ''">
+                                     <div ng-repeat="ver in data.version" ng-if="ver.id === issue.fixVersions" ng-init="versionName = ver.name">
+                                       <div style="visibility: hidden;">{{versionName = ver.name}}</div>
+                                    </div>
+                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version={{versionName}}></issue-direct>
                                     
-                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version="" issue-epic=""></issue-direct>
                                     
-                                    <!--<div class="card-body">
-                                        <img class="mx-2" src={{issue.issueType.iconUrl}} weight="30px" height="30px" />
-                                        <p class="my-auto" width="100%"><a href={{"#!detail-issue/"+issue.id}}>{{issue.key}}</a></p>
-                                        <div class="issue-badge">
-                                            <span class="badge badge-secondary">Version01</span>
-                                            <span class="badge badge-primary">Epic01</span>
-                                        </div>
-                                    </div>-->
+                                    <!--<div ng-click="getVersion(issue.fixVersions)"></div>
+                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version={{versionName}}></issue-direct>-->
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -120,8 +97,9 @@
                         <div id="heading2" class="collapse show" aria-labelledby="backlog" data-parent="#accordion1">
                             <div class="card-body card-issue">
                                 <!--row issue-->
-                                <div class="card">
-                                    <!--<issue-direct issue-type="" issue-id="" issue-key="" issue-version="" issue-epic=""></issue-direct>-->
+                                <div class="card" ng-repeat="issue in data.issues" ng-if="!issue.issueType.subtask && issue.sprintID ==  '0'" ng-init="versionName=''">
+                                    <div ng-repeat="ver in data.version" ng-if="ver.id === issue.fixVersions" ng-init="versionName=ver.name"></div>
+                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version={{versionName}}></issue-direct>
                                 </div>
                                 <!--=.=-->
                             </div>

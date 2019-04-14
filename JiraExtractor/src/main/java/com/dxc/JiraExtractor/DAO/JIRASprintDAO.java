@@ -43,7 +43,7 @@ public class JIRASprintDAO {
                 sprint.setName(resultSet.getString("name"));
                 sprint.setState(resultSet.getString("state"));
                 sprint.setStartDate(resultSet.getString("startDate"));
-                sprint.setEndDate("endDate");
+                sprint.setEndDate(resultSet.getString("endDate"));
                 sprint.setProjectID(resultSet.getInt("project"));
                 sprints.add(sprint);
             }
@@ -51,6 +51,26 @@ public class JIRASprintDAO {
             e.printStackTrace();
         }
         return sprints;
+    }
+    
+    public JIRASprint getSprintById(Connection cnn, String sprintId) {
+        JIRASprint sprint = new JIRASprint();
+        String sql = "select * from sprint where idSprint = " + sprintId;
+        try {
+            PreparedStatement preparedStatement = cnn.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+	            sprint.setId(resultSet.getInt("idSprint"));
+	            sprint.setName(resultSet.getString("name"));
+	            sprint.setState(resultSet.getString("state"));
+	            sprint.setStartDate(resultSet.getString("startDate"));
+	            sprint.setEndDate(resultSet.getString("endDate"));
+	            sprint.setProjectID(resultSet.getInt("project"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sprint;
     }
 
 }

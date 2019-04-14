@@ -47,7 +47,7 @@ public class JIRAAccountDAO {
                 user.setAccountId((resultSet.getString("accountId")));
                 user.setName(resultSet.getString("name"));
                 user.setAvatarUrls(resultSet.getString("avatarUrl"));
-                user.setDisplayName("displayName");
+                user.setDisplayName(resultSet.getString("displayName"));
                 user.setActive(resultSet.getBoolean("active"));
                 if (userID.equals("*"))
                     users.add(user);
