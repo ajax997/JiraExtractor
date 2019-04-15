@@ -42,10 +42,6 @@
                 <input type="password" id="inputPassword" name="pass" ng-model="pass" class="form-control" placeholder="Enter password" required>
               </div>
 
-              <div class="custom-control custom-checkbox my-3">
-                <input type="checkbox" class="custom-control-input" id="ckbRememeber">
-                <label class="custom-control-label" for="ckbRememeber">Remember password</label>
-              </div>
               <hr class="my-4">
               <button class="btn btn-lg btn-primary btn-block" type="submit">SIGN IN</button>
               

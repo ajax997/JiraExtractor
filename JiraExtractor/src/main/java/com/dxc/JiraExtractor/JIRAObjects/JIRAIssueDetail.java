@@ -13,6 +13,7 @@ public class JIRAIssueDetail {
 
 	private String fixVersions;
 	private String parentID;
+	private JIRAVersion version;
 
 	public String getParentID() {
 		return parentID;
@@ -103,5 +104,13 @@ public class JIRAIssueDetail {
 
 	public void setFixVersions(String fixVersions) {
 		this.fixVersions = fixVersions;
+	}
+
+	public JIRAVersion getVersion() {
+		return version;
+	}
+
+	public void setVersion(JIRAVersion version) {
+		this.version = version;
 	}
 }
