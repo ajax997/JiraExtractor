@@ -9,11 +9,17 @@ import com.dxc.JiraExtractor.ConfigStuffs;
 import com.dxc.JiraExtractor.DAO.*;
 import com.dxc.JiraExtractor.JIRAObjects.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dxc.JiraExtractor.JiraAPIInteractor.JIRAInteractor;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class RedirectController {
@@ -22,6 +28,8 @@ public class RedirectController {
 
 	@RequestMapping("/")
 	public String welcome() {
+		if(ConfigStuffs.login)
+			return "Projects";
 		return "login";
 	}
 
@@ -32,6 +40,7 @@ public class RedirectController {
 		if (loginR) {
             new ManipulationDatabase().dropTables();
             new ManipulationDatabase().addTables();
+            ConfigStuffs.login = true;
             return "Projects";
         }
 		else
@@ -42,6 +51,10 @@ public class RedirectController {
 
 	@RequestMapping(value = "/import")
 	public String importProject() {
+		if(!ConfigStuffs.login)
+			return "login";
+
+
 		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
 
 		//IMPORT USER
@@ -99,15 +112,15 @@ public class RedirectController {
 			dashboardDAO.addDashboard(MYSQLDAOHelper.getConnection(), dashboard);
 		}
 
-
-
 		return "Projects";
 	}
+
 
 	@RequestMapping(value = "/logout")
 	public String logout()
 	{
         new ManipulationDatabase().dropTables();
+        ConfigStuffs.login = false;
         return "login";
 	}
 }

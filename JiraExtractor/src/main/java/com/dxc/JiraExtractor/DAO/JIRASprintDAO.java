@@ -1,11 +1,8 @@
 package com.dxc.JiraExtractor.DAO;
 
-import com.dxc.JiraExtractor.JIRAObjects.JIRAProjectDetail;
 import com.dxc.JiraExtractor.JIRAObjects.JIRASprint;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -27,7 +24,10 @@ public class JIRASprintDAO {
             System.out.println("INSERT COMPLETE!");
             //TODO missing projects
         } catch (Exception e) {
-            e.printStackTrace();
+            if (e instanceof SQLIntegrityConstraintViolationException)
+            {
+                System.out.println("CONFLICT");
+            }
         }
     }
 
@@ -39,12 +39,7 @@ public class JIRASprintDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 JIRASprint sprint = new JIRASprint();
-                sprint.setId(resultSet.getInt("idSprint"));
-                sprint.setName(resultSet.getString("name"));
-                sprint.setState(resultSet.getString("state"));
-                sprint.setStartDate(resultSet.getString("startDate"));
-                sprint.setEndDate(resultSet.getString("endDate"));
-                sprint.setProjectID(resultSet.getInt("project"));
+                getSprint(resultSet, sprint);
                 sprints.add(sprint);
             }
         } catch (Exception e) {
@@ -52,7 +47,16 @@ public class JIRASprintDAO {
         }
         return sprints;
     }
-    
+
+    private void getSprint(ResultSet resultSet, JIRASprint sprint) throws SQLException {
+        sprint.setId(resultSet.getInt("idSprint"));
+        sprint.setName(resultSet.getString("name"));
+        sprint.setState(resultSet.getString("state"));
+        sprint.setStartDate(resultSet.getString("startDate"));
+        sprint.setEndDate(resultSet.getString("endDate"));
+        sprint.setProjectID(resultSet.getInt("project"));
+    }
+
     public JIRASprint getSprintById(Connection cnn, String sprintId) {
         JIRASprint sprint = new JIRASprint();
         String sql = "select * from sprint where idSprint = " + sprintId;
@@ -60,12 +64,7 @@ public class JIRASprintDAO {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-	            sprint.setId(resultSet.getInt("idSprint"));
-	            sprint.setName(resultSet.getString("name"));
-	            sprint.setState(resultSet.getString("state"));
-	            sprint.setStartDate(resultSet.getString("startDate"));
-	            sprint.setEndDate(resultSet.getString("endDate"));
-	            sprint.setProjectID(resultSet.getInt("project"));
+                getSprint(resultSet, sprint);
             }
         } catch (Exception e) {
             e.printStackTrace();
