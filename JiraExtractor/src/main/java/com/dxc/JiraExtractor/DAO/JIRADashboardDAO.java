@@ -1,6 +1,8 @@
 package com.dxc.JiraExtractor.DAO;
 
 import com.dxc.JiraExtractor.JIRAObjects.JIRADashboard;
+import com.dxc.JiraExtractor.JiraAPIInteractor.RequestType;
+import com.dxc.JiraExtractor.JiraAPIInteractor.SendRequest;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -46,5 +48,15 @@ public class JIRADashboardDAO {
             e.printStackTrace();
         }
         return dashboards;
+    }
+
+    public String getDashboardView(Connection cnn ,String dashboardID)
+    {
+        for (JIRADashboard d :getAllDashboard(cnn))
+        {
+            if (d.getId().equals(dashboardID))
+                return SendRequest.sendRequest(d.getView(), RequestType.GET);
+        }
+       return "";
     }
 }

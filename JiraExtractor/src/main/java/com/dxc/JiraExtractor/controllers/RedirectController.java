@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Base64;
 
 import com.dxc.JiraExtractor.ConfigStuffs;
 import com.dxc.JiraExtractor.DAO.*;
@@ -38,11 +39,14 @@ public class RedirectController {
 		JIRAInteractor interactor = new JIRAInteractor(url);
 		boolean loginR = interactor.login(user, password);
 		if (loginR) {
-            new ManipulationDatabase().dropTables();
-            new ManipulationDatabase().addTables();
-            ConfigStuffs.login = true;
-            return "Projects";
-        }
+			new ManipulationDatabase().dropTables();
+			new ManipulationDatabase().addTables();
+			ConfigStuffs.login = true;
+			ConfigStuffs.urlString = url;
+			String originalInput = user + ":" + password;
+			ConfigStuffs.tokenBase64 = Base64.getEncoder().encodeToString(originalInput.getBytes());
+			return "Projects";
+		}
 		else
 		{
 			return "login";
@@ -51,8 +55,8 @@ public class RedirectController {
 
 	@RequestMapping(value = "/import")
 	public String importProject() {
-		if(!ConfigStuffs.login)
-			return "login";
+//		if(!ConfigStuffs.login)
+//			return "login";
 
 
 		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);

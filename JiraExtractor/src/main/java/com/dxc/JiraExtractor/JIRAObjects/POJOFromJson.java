@@ -158,7 +158,13 @@ public class POJOFromJson {
 
 		jiraDetail.setId(object.getString("id"));
 		jiraDetail.setKey(object.getString("key"));
-		//jiraDetail.setSummary(object.getString("summary"));
+		try {
+			jiraDetail.setSummary(object.getString("summary"));
+		}
+		catch (Exception e)
+		{
+			e.getMessage();
+		}
 		jiraDetail.setProject(getJiraProjectFromJson(contentJ.getJSONObject("project")));
 
 		JSONObject jsonObject = contentJ.getJSONObject("project");

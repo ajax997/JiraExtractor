@@ -108,5 +108,9 @@ public class RESTAPIController {
 	{
 		return new Gson().toJson(new JIRAIssueTypeDAO().getAllIssueType(MYSQLDAOHelper.getConnection(), Integer.parseInt(issuetypeID)));
 	}
+	@RequestMapping(value = "api/dashboard/view/{dashboardID}")
+	public String getDashboardViewHTML(@PathVariable String dashboardID){
+		return new JIRADashboardDAO().getDashboardView(MYSQLDAOHelper.getConnection(), dashboardID);
+	}
 
 }
