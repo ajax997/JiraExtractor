@@ -19,7 +19,7 @@ public class JIRAAccountDAO {
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             preparedStatement.setString(1, (user.getAccountId()));
             preparedStatement.setString(2,user.getName());
-            preparedStatement.setString(3,"");
+            preparedStatement.setString(3,user.getEmail());
             preparedStatement.setString(4, user.getAvatarUrls());
             preparedStatement.setString(5, user.getDisplayName());
             preparedStatement.setBoolean(6, user.getActive());
@@ -46,6 +46,13 @@ public class JIRAAccountDAO {
                 JIRAProjectUser user = new JIRAProjectUser();
                 user.setAccountId((resultSet.getString("accountId")));
                 user.setName(resultSet.getString("name"));
+                try {
+                    user.setEmail(resultSet.getString("emailAddress"));
+                } catch (Exception e)
+                {
+                    e.getMessage();
+                }
+
                 user.setAvatarUrls(resultSet.getString("avatarUrl"));
                 user.setDisplayName(resultSet.getString("displayName"));
                 user.setActive(resultSet.getBoolean("active"));

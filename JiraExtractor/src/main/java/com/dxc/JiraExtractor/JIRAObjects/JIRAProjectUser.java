@@ -15,6 +15,8 @@ public class JIRAProjectUser {
 
     private String key;
 
+    private String email;
+
     public String getAccountId ()
     {
         return accountId;
@@ -83,5 +85,13 @@ public class JIRAProjectUser {
     public void setKey (String key)
     {
         this.key = key;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

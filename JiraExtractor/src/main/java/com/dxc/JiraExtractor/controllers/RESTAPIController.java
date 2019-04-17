@@ -2,12 +2,16 @@ package com.dxc.JiraExtractor.controllers;
 
 import com.dxc.JiraExtractor.ConfigStuffs;
 import com.dxc.JiraExtractor.DAO.*;
+import com.dxc.JiraExtractor.JIRAObjects.JIRAProject;
+import com.dxc.JiraExtractor.JIRAObjects.JIRAProjectUser;
 import com.dxc.JiraExtractor.JiraAPIInteractor.JIRAInteractor;
 import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 
 @RestController
 public class RESTAPIController {
@@ -111,6 +115,20 @@ public class RESTAPIController {
 	@RequestMapping(value = "api/dashboard/view/{dashboardID}")
 	public String getDashboardViewHTML(@PathVariable String dashboardID){
 		return new JIRADashboardDAO().getDashboardView(MYSQLDAOHelper.getConnection(), dashboardID);
+	}
+
+	@RequestMapping(value = "api/user/current")
+	public String getCurrentUser()
+	{
+		ArrayList<JIRAProjectUser> users = new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.getConnection(), "*");
+		for (JIRAProjectUser user: users)
+		{
+			System.out.println(user.getEmail());
+			if(ConfigStuffs.email.equals(user.getEmail()))
+				return new Gson().toJson(user);
+		}
+
+		return "not found";
 	}
 
 }

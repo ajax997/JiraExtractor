@@ -219,7 +219,7 @@ public class POJOFromJson {
 		jiraProjectUser.setName(jsonObject.getString("name"));
 		jiraProjectUser.setDisplayName(jsonObject.getString("displayName"));
 		jiraProjectUser.setActive(jsonObject.getBoolean("active"));
-
+		jiraProjectUser.setEmail(jsonObject.getString("emailAddress"));
 		JSONObject avtJ = jsonObject.getJSONObject("avatarUrls");
 
 		jiraProjectUser.setAvatarUrls(avtJ.getString("48x48"));

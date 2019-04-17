@@ -37,7 +37,7 @@ public class ManipulationDatabase {
             connection.prepareStatement("CREATE TABLE `account` (\n" +
                     "  `accountId` varchar(45) NOT NULL,\n" +
                     "  `name` varchar(500) DEFAULT NULL,\n" +
-                    "  `emailAddress` varchar(45) DEFAULT NULL,\n" +
+                    "  `emailAddress` varchar(100) DEFAULT NULL,\n" +
                     "  `avatarUrl` varchar(1000) DEFAULT NULL,\n" +
                     "  `displayName` varchar(100) DEFAULT NULL,\n" +
                     "  `active` binary(1) DEFAULT NULL,\n" +

@@ -24,7 +24,6 @@ public class JIRAProjectDetailDAO {
             preparedStatement.execute();
             System.out.println("INSERT COMPLETE!");
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("LEAD ID >> "+projectDetail.getProjectUser().getAccountId());
         }
     }

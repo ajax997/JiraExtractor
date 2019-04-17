@@ -43,6 +43,7 @@ public class RedirectController {
 			new ManipulationDatabase().addTables();
 			ConfigStuffs.login = true;
 			ConfigStuffs.urlString = url;
+			ConfigStuffs.email = user;
 			String originalInput = user + ":" + password;
 			ConfigStuffs.tokenBase64 = Base64.getEncoder().encodeToString(originalInput.getBytes());
 			return "Projects";
