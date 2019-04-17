@@ -21,6 +21,8 @@ public class JIRAAccountDAOTest {
 
     @Test
     public void addAccount() throws SQLException, JSONException {
+        new ManipulationDatabase().dropTables();
+        new ManipulationDatabase().addTables();
         String accountJson = "{\n" +
                 "            \"self\": \"https://jiraproj2.atlassian.net/rest/api/3/user?accountId=5c9498b3fbf7532d14b52b6f\",\n" +
                 "            \"name\": \"daothimy46\",\n" +
@@ -59,7 +61,8 @@ public class JIRAAccountDAOTest {
     }
 
     @Test
-    public void getAllUser() {
+    public void getAllUser() throws SQLException, JSONException {
+        addAccount();
         JIRAAccountDAO accountDAO = new JIRAAccountDAO();
         ArrayList<JIRAProjectUser> projectUsers = accountDAO.getAllUser(MYSQLDAOHelper.getConnection(),"*");
         assertTrue(projectUsers.size()>0);

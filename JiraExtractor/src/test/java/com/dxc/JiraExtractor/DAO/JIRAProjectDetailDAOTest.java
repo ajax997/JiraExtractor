@@ -20,6 +20,8 @@ public class JIRAProjectDetailDAOTest {
 
     @Test
     public void addProjectDetail() throws SQLException, JSONException {
+        new ManipulationDatabase().dropTables();
+        new ManipulationDatabase().addTables();
 
         String projectDetailJSON = "{\n" +
                 "    \"expand\": \"description,lead,issueTypes,url,projectKeys\",\n" +

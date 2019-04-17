@@ -121,6 +121,7 @@ public class POJOFromJson {
 		JIRAIssueDetail jiraDetail = new JIRAIssueDetail();
 
 		jiraDetail.setSelf(object.getString("self"));
+
 		JSONObject contentJ = object.getJSONObject("fields");
 
 		if (contentJ.has("parent")) {
@@ -159,7 +160,7 @@ public class POJOFromJson {
 		jiraDetail.setId(object.getString("id"));
 		jiraDetail.setKey(object.getString("key"));
 		try {
-			jiraDetail.setSummary(object.getString("summary"));
+			jiraDetail.setSummary(contentJ.getString("summary"));
 		}
 		catch (Exception e)
 		{

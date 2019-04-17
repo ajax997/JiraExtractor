@@ -177,6 +177,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 	public ArrayList<JIRAProjectUser> getAllUsers()
 	{
 		ArrayList<JIRAProjectUser> projectUsers = new ArrayList<>();
+
 		JSONArray jsonArray = new JSONArray(SendRequest.sendRequestToken(ConfigStuffs.urlString + "/rest/api/2/user/search?username=%25&startAt=0&maxResults=1000", RequestType.GET));
 
 		for(int i =0 ; i< jsonArray.length(); i++)

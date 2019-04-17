@@ -20,6 +20,8 @@ public class JIRADashboardDAOTest {
 
     @Test
     public void addDashboard() throws SQLException, JSONException {
+        new ManipulationDatabase().dropTables();
+        new ManipulationDatabase().addTables();
         String dashboardJson = "{\n" +
                 "            \"id\": \"10000\",\n" +
                 "            \"isFavourite\": false,\n" +

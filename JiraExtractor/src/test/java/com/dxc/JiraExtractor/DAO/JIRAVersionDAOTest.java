@@ -21,6 +21,8 @@ public class JIRAVersionDAOTest {
 
     @Test
     public void addVersion() throws JSONException, SQLException {
+        new ManipulationDatabase().dropTables();
+        new ManipulationDatabase().addTables();
         String versionJson = "{\n" +
                 "            \"self\": \"https://jraproj.atlassian.net/rest/api/3/version/10001\",\n" +
                 "            \"id\": \"10001\",\n" +

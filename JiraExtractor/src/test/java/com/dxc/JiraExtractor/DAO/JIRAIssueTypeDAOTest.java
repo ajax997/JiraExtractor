@@ -20,6 +20,8 @@ public class JIRAIssueTypeDAOTest {
 
     @Test
     public void addIssue() throws SQLException, JSONException {
+        new ManipulationDatabase().dropTables();
+        new ManipulationDatabase().addTables();
         String issueTypeJson = "{\n" +
                 "            \"self\": \"https://jraproj.atlassian.net/rest/api/3/issuetype/10003\",\n" +
                 "            \"id\": \"10003\",\n" +
@@ -36,7 +38,7 @@ public class JIRAIssueTypeDAOTest {
 
         boolean sign = false;
         try {
-            PreparedStatement p = MYSQLDAOHelper.getConnection().prepareStatement("select * from account where accountId = \"5c9498b3fbf7532d14b52b6f\"");
+            PreparedStatement p = MYSQLDAOHelper.getConnection().prepareStatement("select * from issuetype where idIssuetype = 10003");
             ResultSet resultSet = p.executeQuery();
             while (resultSet.next()) {
                 sign = true;
@@ -50,7 +52,8 @@ public class JIRAIssueTypeDAOTest {
     }
 
     @Test
-    public void getAllIssueType() {
+    public void getAllIssueType() throws SQLException, JSONException {
+        addIssue();
         assertTrue(new JIRAIssueTypeDAO().getAllIssueType(MYSQLDAOHelper.getConnection(), 10003).size()>0);
     }
 }

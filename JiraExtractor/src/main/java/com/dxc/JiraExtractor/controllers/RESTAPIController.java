@@ -43,6 +43,13 @@ public class RESTAPIController {
 		return new Gson().toJson(new JIRAIssueDAO().getAllIssueDetail(MYSQLDAOHelper.getConnection(), Integer.parseInt(issueID)));
 		
 	}
+
+	@RequestMapping(value = "api/{issueID}/subtask")
+	public String getSubtask(@PathVariable String issueID)
+	{
+		return new Gson().toJson(new JIRAIssueDAO().getAllSubtask(MYSQLDAOHelper.getConnection(), (issueID)));
+	}
+
 	@RequestMapping(value = "/api/{projectId}/sprints")
 	public String getAllSprint(@PathVariable String projectId)
 	{
@@ -117,6 +124,8 @@ public class RESTAPIController {
 	{
 		return new Gson().toJson(new JIRAIssueTypeDAO().getAllIssueType(MYSQLDAOHelper.getConnection(), Integer.parseInt(issuetypeID)));
 	}
+
+
 	@RequestMapping(value = "api/dashboard/view/{dashboardID}")
 	public String getDashboardViewHTML(@PathVariable String dashboardID){
 		return new JIRADashboardDAO().getDashboardView(MYSQLDAOHelper.getConnection(), dashboardID);

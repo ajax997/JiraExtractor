@@ -20,6 +20,8 @@ public class JIRAProjectDAOTest {
 
     @Test
     public void addProject() throws SQLException, JSONException {
+        new ManipulationDatabase().dropTables();
+        new ManipulationDatabase().addTables();
         String projectJSON = "{\n" +
                 "        \"expand\": \"description,lead,issueTypes,url,projectKeys\",\n" +
                 "        \"self\": \"https://jraproj.atlassian.net/rest/api/2/project/10001\",\n" +
@@ -58,7 +60,8 @@ public class JIRAProjectDAOTest {
     }
 
     @Test
-    public void getAllProject() {
+    public void getAllProject() throws SQLException, JSONException {
+        addProject();
         JIRAProjectDAO dao = new JIRAProjectDAO();
         assertTrue(dao.getAllProject(MYSQLDAOHelper.getConnection(),10001).size()>0);
     }

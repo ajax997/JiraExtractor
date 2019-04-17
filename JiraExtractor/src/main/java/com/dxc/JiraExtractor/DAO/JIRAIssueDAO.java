@@ -10,9 +10,11 @@ import java.util.ArrayList;
  */
 public class JIRAIssueDAO {
     public void addIssue(Connection cnn, JIRAIssueDetail issueDetail) {
+
         String sql = "insert into issue (idIssue, _key, summary, issuetype, parent, project, fixVersions, assignee, creator, reporter, sprint, self) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
+            MYSQLDAOHelper.getConnection().prepareStatement("SET FOREIGN_KEY_CHECKS = 0").execute();
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
             preparedStatement.setInt(1, Integer.parseInt(issueDetail.getId()));
 
@@ -55,6 +57,14 @@ public class JIRAIssueDAO {
         } catch (Exception e) {
             if (e instanceof SQLIntegrityConstraintViolationException) {
                 System.out.println("COLLISION ISSUE");
+                e.printStackTrace();
+            }
+        }
+        finally {
+            try {
+                MYSQLDAOHelper.getConnection().prepareStatement("SET FOREIGN_KEY_CHECKS = 1").execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -76,6 +86,23 @@ public class JIRAIssueDAO {
         return issueDetails;
     }
 
+    public ArrayList<JIRAIssueDetail> getAllSubtask(Connection cnn, String parentID) {
+        ArrayList<JIRAIssueDetail> issueDetails = new ArrayList<>();
+
+            String sql = "select * from issue where parent = " + parentID;
+
+        try {
+            toIssueDetails(cnn, issueDetails, sql);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return issueDetails;
+    }
+
+
+
     public ArrayList<JIRAIssueDetail> getAllIssueByProjectID(Connection cnn, int projectID) {
         ArrayList<JIRAIssueDetail> issueDetails = new ArrayList<>();
 
@@ -88,6 +115,7 @@ public class JIRAIssueDAO {
         }
         return issueDetails;
     }
+
 
     private boolean checkContain(ArrayList<JIRAIssueDetail> arrayList, JIRAIssueDetail issueDetail) {
         for (JIRAIssueDetail d : arrayList) {
