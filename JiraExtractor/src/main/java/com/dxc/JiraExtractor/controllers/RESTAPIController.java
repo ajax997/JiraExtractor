@@ -62,7 +62,12 @@ public class RESTAPIController {
 	{
 		return new Gson().toJson(new JIRAIssueDAO().getAllIssueByProjectID(MYSQLDAOHelper.getConnection(), Integer.parseInt(projectId)));
 	}
-
+	
+	@RequestMapping(value = "/api/issues")
+	public String getAllIssue()
+	{
+		return new Gson().toJson(new JIRAIssueDAO().getAllIssueDetail(MYSQLDAOHelper.getConnection(), -1));
+	}
 
 	@RequestMapping(value = "/api/dashboards")
 	public String getDashboard()
@@ -128,7 +133,7 @@ public class RESTAPIController {
 				return new Gson().toJson(user);
 		}
 
-		return "not found";
+		return "notfound";
 	}
 
 }

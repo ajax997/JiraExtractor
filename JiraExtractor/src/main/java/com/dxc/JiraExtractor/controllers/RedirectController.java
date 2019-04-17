@@ -35,16 +35,16 @@ public class RedirectController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam("link") String url,@RequestParam("email") String user, @RequestParam("pass") String password) {
+	public String login(@RequestParam("link") String url,@RequestParam("email") String user, @RequestParam("token") String token) {
 		JIRAInteractor interactor = new JIRAInteractor(url);
-		boolean loginR = interactor.login(user, password);
+		boolean loginR = interactor.login(user, token);
 		if (loginR) {
-			new ManipulationDatabase().dropTables();
-			new ManipulationDatabase().addTables();
+			//new ManipulationDatabase().dropTables();
+			//new ManipulationDatabase().addTables();
 			ConfigStuffs.login = true;
 			ConfigStuffs.urlString = url;
 			ConfigStuffs.email = user;
-			String originalInput = user + ":" + password;
+			String originalInput = user + ":" + token;
 			ConfigStuffs.tokenBase64 = Base64.getEncoder().encodeToString(originalInput.getBytes());
 			return "Projects";
 		}
@@ -58,8 +58,9 @@ public class RedirectController {
 	public String importProject() {
 //		if(!ConfigStuffs.login)
 //			return "login";
-
-
+		new ManipulationDatabase().dropTables();
+		new ManipulationDatabase().addTables();
+		
 		JIRAInteractor interactor = new JIRAInteractor(ConfigStuffs.urlString);
 
 		//IMPORT USER

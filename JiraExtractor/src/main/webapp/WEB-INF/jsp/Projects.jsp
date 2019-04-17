@@ -37,6 +37,7 @@
     <script src="controllers/loadProjects.js"></script>
     <script src="controllers/projectController.js"></script>
     <script src="controllers/issueController.js"></script>
+    <script src="controllers/dashboardController.js"></script>
     
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/fontawesome-all.min.css">

@@ -38,8 +38,8 @@
               </div>
 
               <div class="form-label-group">
-                <label for="inputPassword">Password</label>
-                <input type="password" id="inputPassword" name="pass" ng-model="pass" class="form-control" placeholder="Enter password" required>
+                <label for="inputPassword">API token</label>
+                <input type="password" id="inputPassword" name="token" ng-model="pass" class="form-control" placeholder="Enter api token" required>
               </div>
 
               <hr class="my-4">
