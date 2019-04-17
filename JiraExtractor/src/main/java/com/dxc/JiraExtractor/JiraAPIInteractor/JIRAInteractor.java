@@ -144,7 +144,7 @@ public class JIRAInteractor implements IJIRAIPIInteractor {
 				for (int j = 0; j< sprintList.length(); j++)
 				{
 					JSONObject object = sprintList.getJSONObject(j);
-					sprintArray.add(pojoFromJson.getSprintFromJson(object));
+					sprintArray.add(pojoFromJson.getSprintFromJson(object, object.getString("startDate"), object.getString("endDate")));
 				}
 			}
 		}

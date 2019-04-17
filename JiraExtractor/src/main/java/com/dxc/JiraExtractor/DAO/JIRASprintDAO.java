@@ -19,7 +19,7 @@ public class JIRASprintDAO {
             preparedStatement.setString(4, sprint.getStartDate());
             preparedStatement.setString(5, sprint.getEndDate());
             preparedStatement.setInt(6, project);
-            preparedStatement.setString(7, "");
+            preparedStatement.setString(7,"");
             preparedStatement.execute();
             System.out.println("INSERT COMPLETE!");
             //TODO missing projects

@@ -201,14 +201,14 @@ public class POJOFromJson {
 
 	}
 
-	public JIRASprint getSprintFromJson(JSONObject jsonObject) {
+	public JIRASprint getSprintFromJson(JSONObject jsonObject, String startDate, String endDate) {
 		JIRASprint sprint = new JIRASprint();
 		sprint.setId(jsonObject.getInt("id"));
 		sprint.setState(jsonObject.getString("state"));
 		sprint.setName(jsonObject.getString("name"));
-		//sprint.setStartDate(jsonObject.getString("startDate"));
-		//sprint.setEndDate(jsonObject.getString("endDate"));
-		//sprint.setGoal(jsonObject.getString("goal"));
+		sprint.setStartDate(startDate);
+		sprint.setEndDate(endDate);
+
 		return sprint;
 
 	}
