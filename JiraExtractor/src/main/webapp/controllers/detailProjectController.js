@@ -85,31 +85,4 @@ app.controller('detailCtr', function($scope, $http, $routeParams, $q){
     	}
     }
     
-    /*$scope.getVersion= function(idVer){
-    	$scope.versionName = {};
-    	  Get version of this issue 
-        $http.get('/api/versions/'+idVer).then(
-            function(data){
-            	$scope.versionName = data.data;
-            	console.log($scope.versionName);
-            },
-            function(error){
-            	console.log(error);
-            }
-        );
-    }*/
-		    /* for(var i=0 ; i < $scope.data.issues.length ; i++){
-			if($scope.data.issues[i].fixVersions === "0"){
-				$scope.version[i]={"issue":$scope.data.issues[i],"ver":""};
-			}
-			else{
-				$http.get('/api/versions/'+$scope.data.issues[i].fixVersions).then(function(data1){
-		        	$scope.version[i]={"issue":$scope.data.issues[i],"ver":data1.data};
-		        },function(error){
-		        	console.log(error);
-		        });
-			}
-		}
-		console.log($scope.version);*/
-    
 });

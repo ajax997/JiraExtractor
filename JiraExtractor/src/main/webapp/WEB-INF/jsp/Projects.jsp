@@ -34,9 +34,9 @@
      <script src="directives/menuDirective.js"></script>
      <script src="directives/issueDirective.js"></script>
     
-    <script src="controllers/loadProjects.js"></script>
-    <script src="controllers/projectController.js"></script>
-    <script src="controllers/issueController.js"></script>
+    <script src="controllers/listProjectController.js"></script>
+    <script src="controllers/detailProjectController.js"></script>
+    <script src="controllers/detailIssueController.js"></script>
     <script src="controllers/dashboardController.js"></script>
     
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -49,10 +49,6 @@
         <!--Menu-->
         <menu-direct></menu-direct>
         <div class="content p-4">
-            <div class="alert alert-danger" ng-show="data.error">
-                Error ({{data.error.status}}). The project data was not loaded.
-                <a href="/Projects.html" class="alert-link">Click here to try again</a>
-            </div>
             <div ng-view style="width:100%;"></div>
         </div>
     </div>
