@@ -45,7 +45,7 @@
               <hr class="my-4">
               <button class="btn btn-lg btn-primary btn-block" type="submit">SIGN IN</button>
               <div class="text-center mt-2">
-                <a href="/#" >how to get API token?</a>
+                <a target="_blank" href="https://confluence.atlassian.com/cloud/api-tokens-938839638.html" >how to get API token?</a>
               </div>
             </form>
           </div>

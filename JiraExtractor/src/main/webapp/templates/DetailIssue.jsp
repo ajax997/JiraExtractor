@@ -24,8 +24,8 @@
                         <img class="ml-4" src={{data.issue[0].issueType.iconUrl}} width="20px" /> {{data.issue[0].issueType.name}}
                     </div>
                      <div class="mb-2">
-                        <p class="title-info m-0">Fix version:</p>
-                        <span class="ml-4" >{{data.version.name}}</span>
+                        <p class="title-info m-0">Version:</p>
+                        <span class="ml-4" >{{data.issue[0].version.name}}</span>
                     </div>
                      <div class="mb-2">
                         <p class="title-info m-0">sprint:</p>
