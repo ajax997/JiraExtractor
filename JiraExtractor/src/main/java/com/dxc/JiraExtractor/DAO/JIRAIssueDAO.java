@@ -147,7 +147,7 @@ public class JIRAIssueDAO {
                 jiraIssueDetail.setAssignee(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.
                         getConnection(), resultSet.getString("assignee")).get(0));
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                e.getMessage();
             }
 
             jiraIssueDetail.setCreator(new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.

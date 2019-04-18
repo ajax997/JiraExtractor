@@ -39,8 +39,8 @@ public class RedirectController {
 		JIRAInteractor interactor = new JIRAInteractor(url);
 		boolean loginR = interactor.login(user, token);
 		if (loginR) {
-			new ManipulationDatabase().dropTables();
-			new ManipulationDatabase().addTables();
+//			new ManipulationDatabase().dropTables();
+//			new ManipulationDatabase().addTables();
 			ConfigStuffs.login = true;
 			ConfigStuffs.urlString = url;
 			ConfigStuffs.email = user;

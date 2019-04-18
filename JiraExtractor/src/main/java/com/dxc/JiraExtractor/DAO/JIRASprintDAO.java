@@ -22,7 +22,6 @@ public class JIRASprintDAO {
             preparedStatement.setString(7,"");
             preparedStatement.execute();
             System.out.println("INSERT COMPLETE!");
-            //TODO missing projects
         } catch (Exception e) {
             if (e instanceof SQLIntegrityConstraintViolationException)
             {

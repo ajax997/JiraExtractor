@@ -5,6 +5,7 @@ import com.dxc.JiraExtractor.JIRAObjects.JIRAVersion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -42,15 +43,7 @@ public class JIRAVersionDAO {
             while (resultSet.next())
             {
                 JIRAVersion  version = new JIRAVersion();
-                version.setId(String.valueOf(resultSet.getInt("idVersion")));
-                version.setDescription(resultSet.getString("description"));
-                version.setName(resultSet.getString("name"));
-                version.setArchived(resultSet.getBoolean("archived"));
-                version.setReleased(resultSet.getBoolean("released"));
-                version.setStartDate(resultSet.getString("startDate"));
-                version.setReleaseDate(resultSet.getString("releaseDate"));
-                version.setProjectId(Integer.parseInt(resultSet.getString("projectId")));
-                version.setSelf(resultSet.getString("self"));
+                getVersion(version, resultSet);
                 versions.add(version);
             }
         }
@@ -65,28 +58,34 @@ public class JIRAVersionDAO {
     public JIRAVersion getVersionById(Connection cnn, String versionID)
     {
         JIRAVersion version = new JIRAVersion();
-        String sql = "select * from version where idVersion = "+versionID;
+        String sql = "select * from version where idVersion = ?";
         try{
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
+            preparedStatement.setInt(1, Integer.parseInt(versionID));
+
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
-                version.setId(String.valueOf(resultSet.getInt("idVersion")));
-                version.setDescription(resultSet.getString("description"));
-                version.setName(resultSet.getString("name"));
-                version.setArchived(resultSet.getBoolean("archived"));
-                version.setReleased(resultSet.getBoolean("released"));
-                version.setStartDate(resultSet.getString("startDate"));
-                version.setReleaseDate(resultSet.getString("releaseDate"));
-                version.setProjectId(Integer.parseInt(resultSet.getString("projectId")));
-                version.setSelf(resultSet.getString("self"));
+                getVersion(version, resultSet);
             }
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            System.out.println("This issue do not have version");
         }
 
         return version;
+    }
+
+    private void getVersion(JIRAVersion version, ResultSet resultSet) throws SQLException {
+        version.setId(String.valueOf(resultSet.getInt("idVersion")));
+        version.setDescription(resultSet.getString("description"));
+        version.setName(resultSet.getString("name"));
+        version.setArchived(resultSet.getBoolean("archived"));
+        version.setReleased(resultSet.getBoolean("released"));
+        version.setStartDate(resultSet.getString("startDate"));
+        version.setReleaseDate(resultSet.getString("releaseDate"));
+        version.setProjectId(Integer.parseInt(resultSet.getString("projectId")));
+        version.setSelf(resultSet.getString("self"));
     }
 }
