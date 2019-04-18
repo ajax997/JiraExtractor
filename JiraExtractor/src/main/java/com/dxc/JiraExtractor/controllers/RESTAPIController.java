@@ -116,6 +116,7 @@ public class RESTAPIController {
     @RequestMapping(value = "/api/versions/{versionId}")
    	public String getVersionById(@PathVariable String versionId)
    	{
+   		System.out.println("Error>>>>>>" + versionId);
    		return new Gson().toJson(new JIRAVersionDAO().getVersionById(MYSQLDAOHelper.getConnection(), versionId));
    	}
 
@@ -137,7 +138,6 @@ public class RESTAPIController {
 		ArrayList<JIRAProjectUser> users = new JIRAAccountDAO().getAllUser(MYSQLDAOHelper.getConnection(), "*");
 		for (JIRAProjectUser user: users)
 		{
-			System.out.println(user.getEmail());
 			if(ConfigStuffs.email.equals(user.getEmail()))
 				return new Gson().toJson(user);
 		}

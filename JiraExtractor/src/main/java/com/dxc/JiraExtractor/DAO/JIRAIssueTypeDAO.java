@@ -27,7 +27,7 @@ public class JIRAIssueTypeDAO {
         } catch (Exception e) {
             if (e instanceof SQLIntegrityConstraintViolationException)
             {
-                System.out.println(e.getMessage());
+                e.getMessage();
             }
         }
     }

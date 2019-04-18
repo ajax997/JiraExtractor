@@ -19,7 +19,6 @@ public class MYSQLDAOHelper {
                 String urlString = "jdbc:mysql://" + config.getServer() + ":" + config.getPort() + "/" + config.getDatabase();
                 conn = DriverManager.getConnection(urlString, config.getUserId(), config.getPassword());
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return conn;
