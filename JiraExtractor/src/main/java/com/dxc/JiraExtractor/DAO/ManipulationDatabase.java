@@ -66,6 +66,7 @@ public class ManipulationDatabase {
                     "  `reporter` varchar(45) DEFAULT NULL,\n" +
                     "  `sprint` INT DEFAULT NULL,\n" +
                     "  `self` varchar(1000) DEFAULT NULL,\n" +
+                    "  `time` INT DEFAULT NULL,\n" +
                     "  PRIMARY KEY (`idIssue`),\n" +
                     "  KEY `fk_Issue_IssueType_idx` (`issuetype`),\n" +
                     "  KEY `fk_Issue_IssueParent_idx` (`parent`),\n" +

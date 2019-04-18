@@ -156,6 +156,14 @@ public class POJOFromJson {
 			}
 		}
 
+		try {
+			if (contentJ.get("timeestimate").getClass().getName().equals("java.lang.Integer")) {
+				jiraDetail.setTime(String.valueOf(contentJ.getInt("timeestimate")));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 
 		jiraDetail.setId(object.getString("id"));
 		jiraDetail.setKey(object.getString("key"));
@@ -174,6 +182,7 @@ public class POJOFromJson {
 
 		jiraDetail.setCreator(getProjectUserFromJson(contentJ.getJSONObject("creator")));
 		jiraDetail.setReporter(getProjectUserFromJson(contentJ.getJSONObject("reporter")));
+
 
 
 		try {

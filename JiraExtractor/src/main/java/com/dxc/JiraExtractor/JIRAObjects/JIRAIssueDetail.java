@@ -8,7 +8,7 @@ public class JIRAIssueDetail {
 	private JIRAProjectUser reporter;
 	private JIRAProjectUser creator;
 	private JIRAProjectUser assignee;
-	private String time;
+	private String time = "0";
 	private String summary;
 
 	private String fixVersions;

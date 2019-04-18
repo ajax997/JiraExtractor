@@ -11,8 +11,7 @@ import java.util.ArrayList;
 public class JIRAIssueDAO {
     public void addIssue(Connection cnn, JIRAIssueDetail issueDetail) {
 
-        String sql = "insert into issue (idIssue, _key, summary, issuetype, parent, project, fixVersions, assignee, creator, reporter, sprint, self) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+        String sql = "insert into issue (idIssue, _key, summary, issuetype, parent, project, fixVersions, assignee, creator, reporter, sprint, self, `time`) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             MYSQLDAOHelper.getConnection().prepareStatement("SET FOREIGN_KEY_CHECKS = 0").execute();
             PreparedStatement preparedStatement = cnn.prepareStatement(sql);
@@ -50,6 +49,7 @@ public class JIRAIssueDAO {
             }
 
             preparedStatement.setString(12, issueDetail.getSelf());
+            preparedStatement.setInt(13, Integer.parseInt(issueDetail.getTime()));
 
             preparedStatement.execute();
             System.out.println("INSERT COMPLETE!");
@@ -171,6 +171,11 @@ public class JIRAIssueDAO {
             
             try {
                 jiraIssueDetail.setParentID(String.valueOf(resultSet.getInt("parent")));
+            } catch (Exception e) {
+                e.getMessage();
+            }
+            try {
+                jiraIssueDetail.setTime(String.valueOf((resultSet.getInt("time"))));
             } catch (Exception e) {
                 e.getMessage();
             }
