@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in data.projects | filter:searchText:strict">
+                <tr ng-repeat="item in data.projects | filter:searchText">
                     <td><img src={{item.avatarUrl}} weight="50px" height="50px" /> </td>
                     <td id={{item.id}} ><a href={{"#!detail-project/"+item.id}}>{{item.name}}</a></td>
                     <th>{{item.key}}</th>

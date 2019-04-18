@@ -1,21 +1,12 @@
-app.controller('doashboardCtrl', ['$scope', '$http',function($scope, $http){
+app.controller('doashboardCtrl', ['$scope', '$http','APIService', function($scope, $http, APIService){
 	$scope.data = {};
-   $http.get('api/user/current').then(
-       function(data){
-           $scope.data.user = data.data;
-           console.log($scope.data.user);
-       },
-       function(error){
-           $scope.data.error = error;
-       }
-   );
-   $http.get('/api/issues').then(
-	       function(data){
-	           $scope.data.issues = data.data;
-	           console.log($scope.data.issues);
-	       },
-	       function(error){
-	           $scope.data.error = error;
-	       }
-	   );
+	$scope.num = 0;
+	
+	APIService.getUserCurrent().then(function(data){
+		$scope.data.user =  data;
+	});
+	
+	APIService.getAllIsssue().then(function(data){
+		$scope.data.issues =  data;
+	});
 }]);

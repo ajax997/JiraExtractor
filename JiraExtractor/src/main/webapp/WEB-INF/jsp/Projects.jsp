@@ -33,6 +33,8 @@
     </script>
      <script src="directives/menuDirective.js"></script>
      <script src="directives/issueDirective.js"></script>
+     <script src="services/getAPIService.js"></script>
+     <script src="filters/versionFilter.js"></script>
     
     <script src="controllers/listProjectController.js"></script>
     <script src="controllers/detailProjectController.js"></script>

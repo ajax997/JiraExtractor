@@ -7,6 +7,7 @@ app.directive("issueDirect", function(){
         	issueType: '@',
         	issueId: '@',
         	issueKey: '@',
+        	issueSummary: '@',
         	issueVersion: '@'
         }
     }

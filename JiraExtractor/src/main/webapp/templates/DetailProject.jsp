@@ -2,15 +2,15 @@
 
 <div ng-controller="detailCtr">
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="Projects.html">Projects</a></li>
-    <li class="breadcrumb-item active">Project_Name</li>
+    <li class="breadcrumb-item"><a href="#!/projects">Projects</a></li>
+    <li class="breadcrumb-item active">{{data.project[0].name}}</li>
 </ol>
 <div class="discription-project mb-4" >
 
     <h2>
       <img class="avatar-project" src={{data.project[0].avatarUrl}} width="60px" />
         {{data.project[0].name}}
-        <!--<img class="avatar-user" src={{data.project[0].projectUser.avatarUrls}} data-toggle="tooltip" data-placement="bottom" title={{data.project[0].projectUser.displayName}}/>-->
+        <!--<img class="avatar-user" src={{data.project[0].lead.avatarUrls}} data-toggle="tooltip" data-placement="bottom" title={{data.project[0].lead.displayName}}/>-->
     </h2>
     <h6 class="ml-4 discription">{{data.project[0].description}}</h6>
     <div class="card">
@@ -23,22 +23,20 @@
                             VERSION
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" ng-click="versionFunction(-1)">All</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" ng-repeat="ver in data.version" ng-click="versionFunction(ver)">{{ver.name}}</a>
+                            <a class="dropdown-item" ng-repeat="ver in data.version" ng-click="versionFunction(ver)" ng-model="idVerFil">{{ver.name}}</a>
                         </div>
                     </div>
                    
                 </div>
             </div>
-            <!-- Content Version and Epic -->
+            <!-- Content Version -->
             <div class="row">
                 <div class="card-deck mx-auto">
                     <div class="card bg-light col-sm-6" ng-show="modelVersion">
                         <div class="card-body p-2">
                             <button type="button" class="close" ng-click="versionFunction(-1)">&times;</button>
-                            <h5 class="card-title">{{displayVersion.name}}</h5>
-                            <p class="card-text ml-4 discription">{{displayVersion.description}}<br/>{{displayVersion.startDate +' - '+ displayVersion.releaseDate}}</p>
+                            <h5 class="card-title" ng-model="search">{{displayVersion.name}}</h5>
+                            <p class="card-text ml-4 discription">{{displayVersion.description}}<br/>{{displayVersion.startDate}} - {{displayVersion.releaseDate}}</p>
                         </div>
                     </div>
                 </div>
@@ -55,18 +53,15 @@
                                 <i class="fas fa-plus iconPlus"></i>
                                 <i class="fas fa-minus iconMinus"></i>
                             </button>
-                            <p class="discription">{{sprint.startDate+ " - "+ sprint.endDate}} </p>
+                            <p class="discription">{{sprint.startDate | date:'yyyy-MM-dd h:mma'}} - {{sprint.endDate | date:'yyyy-MM-dd h:mma'}} </p>
                         </div>
                         <!-- Issues Sprint-->
                         <div id={{"heading"+sprint.id}} class="collapse show" aria-labelledby="sprint01" data-parent={{"#accordion-"+sprint.id}}>
                             <div class="card-body card-issue">
                                 <!--row issue-->
-                                <div class="card" ng-repeat="issue in data.issues" ng-if="!issue.issueType.subtask && issue.sprintID == sprint.id">
-                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version={{issue.version.name}}></issue-direct>
+                                <div class="card" ng-repeat="issue in data.issues | versionFilter:idVerFil" ng-if="!issue.issueType.subtask && issue.sprintID == sprint.id">
+                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-summary={{issue.summary}} issue-version={{issue.version.name}}></issue-direct>
                                     
-                                    
-                                    <!--<div ng-click="getVersion(issue.fixVersions)"></div>
-                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version={{versionName}}></issue-direct>-->
                                 </div>
                             </div>
                         </div>
@@ -86,8 +81,8 @@
                         <div id="heading2" class="collapse show" aria-labelledby="backlog" data-parent="#accordion1">
                             <div class="card-body card-issue">
                                 <!--row issue-->
-                                <div class="card" ng-repeat="issue in data.issues" ng-if="!issue.issueType.subtask && issue.sprintID ==  '0'">
-                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version={{issue.version.name}}></issue-direct>
+                                <div class="card" ng-repeat="issue in data.issues | versionFilter:idVerFil" ng-if="!issue.issueType.subtask && issue.sprintID ==  '0'">
+                                    <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-summary={{issue.summary}} issue-version={{issue.version.name}}></issue-direct>
                                 </div>
                                 <!--=.=-->
                             </div>

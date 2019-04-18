@@ -1,13 +1,8 @@
-app.controller('mainCtrl', function($scope, $http, $location){
+app.controller('mainCtrl', function($scope, $http, APIService){
     $scope.data = {};
     
      /*Get api json save to "$scope.data.project" */
-    $http.get('/api/projects').then(
-        function(data){
-            $scope.data.projects = data.data;
-        },
-        function(error){
-            $scope.data.error = error;
-        }
-    );
+    APIService.getAllProject().then(function(data){
+		$scope.data.projects =  data;
+	});
 });

@@ -26,17 +26,15 @@
                 <table class="table card-text">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">type</th>
                             <th scope="col">key</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="issue in data.issues" ng-if="issue.assignee.accountId===data.user.accountId">
-                            <th scope="row">{{$index+1}}</th>
                             <td><img class="avatar-project" src={{issue.issueType.iconUrl}}
                         width="30px" /></td>
-                            <td><a href={{'#!detail-issue/'+issue.id}}>{{issue.key}}</a></td>
+                            <td><a href={{'#!detail-issue/'+issue.id}}>{{issue.key}} | {{issue.summary}}</a></td>
                         </tr>
                     </tbody>
                 </table>

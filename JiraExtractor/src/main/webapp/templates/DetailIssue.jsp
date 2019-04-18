@@ -2,9 +2,9 @@
 
 <div ng-controller="issueCtr">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="Projects.html">Projects</a></li>
+        <li class="breadcrumb-item"><a href="#!/projects">Projects</a></li>
         <li class="breadcrumb-item"><a href={{"#!detail-project/"+data.issue[0].project.id}}>{{data.issue[0].project.name}}</a></li>
-        <li class="breadcrumb-item active">{{data.issue[0].key}} </li>
+        <li class="breadcrumb-item active">{{data.issue[0].key}}</li>
     </ol>
 
 
@@ -13,7 +13,7 @@
             <div class="discription-project" >
               <h2>{{data.issue[0].key}} 
             </h2>
-            <h6 class="ml-4 mt-2 discription">{{data.issue[0].discription}} </h6>
+            <h4 class="ml-4 mt-2 discription">{{data.issue[0].summary}} </h4>
             </div>
         </div>
         <div class="card-body">  
@@ -25,11 +25,18 @@
                     </div>
                      <div class="mb-2">
                         <p class="title-info m-0">Fix version:</p>
-                        <span class="badge badge-secondary ml-4" >{{data.version.name}}</span>
+                        <span class="ml-4" >{{data.version.name}}</span>
                     </div>
                      <div class="mb-2">
                         <p class="title-info m-0">sprint:</p>
                         <span class="ml-4" >{{data.sprint.name}}</span>
+                    </div>
+                    <div class="mb-2">
+                        <p class="title-info m-0">Time estimate:</p>
+                        <div ng-if="data.issue[0].time == 0"></div>
+                        <div ng-if="data.issue[0].time != 0">
+                            <span class="ml-4" >{{data.issue[0].time/3600}}h</span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -81,7 +88,7 @@
                                 <div class="card-body card-issue">
                                     <!--row issue-->
                                     <div class="card" ng-repeat="issue in data.issues" ng-if="issue.parentID == data.issue[0].id">
-                                        <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-version=""></issue-direct>
+                                        <issue-direct issue-type={{issue.issueType.iconUrl}} issue-id={{issue.id}} issue-key={{issue.key}} issue-summary={{issue.summary}} issue-version=""></issue-direct>
                                     </div>
                                     <!--=.=-->
                                 </div>
